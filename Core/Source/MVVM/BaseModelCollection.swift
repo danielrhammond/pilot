@@ -1,14 +1,14 @@
 /// Simple class that provides ModelCollection conformance to a series of events, easiest way to quickly wrap something
 /// that will emit models into a ModelCollection.
-public class SimpleModelCollection: ModelCollection, ProxyingCollectionEventObservable {
+internal class BaseModelCollection: BaseModelCollection, ProxyingCollectionEventObservable {
 
-    internal init(collectionId: ModelCollectionId = "simplemodelcollection-" + Token.makeUnique().stringValue) {
+    internal init(collectionId: ModelCollectionId = "BaseModelCollection-" + Token.makeUnique().stringValue) {
         self.collectionId = collectionId
     }
 
-    /// Event type the SimpleModelCollection consumes
+    /// Event type the BaseModelCollection consumes
     ///
-    /// SimpleModelCollection will begin as a notLoaded ModelCollection, the other event cases match 1:1 with
+    /// BaseModelCollection will begin as a notLoaded ModelCollection, the other event cases match 1:1 with
     /// state values.
     internal enum Event {
         case loading([[Model]]?)

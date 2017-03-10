@@ -17,8 +17,8 @@ class MultiplexModelCollectionTests: XCTestCase {
     }
 
     func testPropegatesLoadingState() {
-        let firstSubCollection = SimpleModelCollection()
-        let secondSubCollection = SimpleModelCollection()
+        let firstSubCollection = BaseModelCollection()
+        let secondSubCollection = BaseModelCollection()
         let subject = MultiplexModelCollection([firstSubCollection, secondSubCollection])
         assertModelCollectionState(expected: .notLoaded, actual: subject.state)
         firstSubCollection.onNext(.loading(nil))
@@ -26,8 +26,8 @@ class MultiplexModelCollectionTests: XCTestCase {
     }
 
     func testPropegatesErrorState() {
-        let firstSubCollection = SimpleModelCollection()
-        let secondSubCollection = SimpleModelCollection()
+        let firstSubCollection = BaseModelCollection()
+        let secondSubCollection = BaseModelCollection()
         let subject = MultiplexModelCollection([firstSubCollection, secondSubCollection])
         firstSubCollection.onNext(.loaded([]))
         secondSubCollection.onNext(.error(StubError()))
@@ -35,9 +35,9 @@ class MultiplexModelCollectionTests: XCTestCase {
     }
 
     func testInsertsEmptySectionsForNotLoadedSections() {
-        let firstSubCollection = SimpleModelCollection()
-        let secondSubCollection = SimpleModelCollection()
-        let thirdSubCollection = SimpleModelCollection()
+        let firstSubCollection = BaseModelCollection()
+        let secondSubCollection = BaseModelCollection()
+        let thirdSubCollection = BaseModelCollection()
         let subject = MultiplexModelCollection([firstSubCollection, secondSubCollection, thirdSubCollection])
         firstSubCollection.onNext(.loaded([[StaticModel(modelId: "0", data: "")]]))
         secondSubCollection.onNext(.loading(nil))
@@ -51,8 +51,8 @@ class MultiplexModelCollectionTests: XCTestCase {
     }
 
     func testPropegatesLoadedState() {
-        let firstSubCollection = SimpleModelCollection()
-        let secondSubCollection = SimpleModelCollection()
+        let firstSubCollection = BaseModelCollection()
+        let secondSubCollection = BaseModelCollection()
         let subject = MultiplexModelCollection([firstSubCollection, secondSubCollection])
         firstSubCollection.onNext(.loaded([[StaticModel(modelId: "0", data: "")]]))
         secondSubCollection.onNext(.loaded([[StaticModel(modelId: "1", data: "")]]))

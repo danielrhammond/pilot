@@ -114,7 +114,7 @@ class FilteredModelCollectionTests: XCTestCase {
     }
 
     func testUpdateSource() {
-        let source = SimpleModelCollection()
+        let source = BaseModelCollection()
         source.onNext(.loaded([]))
         let subject = FilteredModelCollection(sourceCollection: source, filter: { $0.modelId.hasSuffix("4") })
         assertModelCollectionState(expected: .loaded([]), actual: subject.state)

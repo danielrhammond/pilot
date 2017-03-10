@@ -4,7 +4,7 @@ import XCTest
 class SwitchableModelCollectionTests: XCTestCase {
 
     func testForwardsState() {
-        let stub = SimpleModelCollection()
+        let stub = BaseModelCollection()
         let subject = SwitchableModelCollection(modelCollection: stub)
         assertModelCollectionState(expected: stub.state, actual: subject.state)
         stub.onNext(.loading(nil))
@@ -12,7 +12,7 @@ class SwitchableModelCollectionTests: XCTestCase {
     }
 
     func testSendsEventWhenSwitched() {
-        let simple = SimpleModelCollection()
+        let simple = BaseModelCollection()
         simple.onNext(.loading(nil))
         let subject = SwitchableModelCollection(modelCollection: simple)
         let exp = expectation(description: "observer event")
@@ -33,9 +33,9 @@ class SwitchableModelCollectionTests: XCTestCase {
     }
 
     func testUnsubscribesWhenSwitched() {
-        let old = SimpleModelCollection()
+        let old = BaseModelCollection()
         let subject = SwitchableModelCollection(modelCollection: old)
-        let new = SimpleModelCollection()
+        let new = BaseModelCollection()
         new.onNext(.loaded([]))
         subject.switchTo(new)
         old.onNext(.loading(nil))

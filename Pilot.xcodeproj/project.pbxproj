@@ -107,10 +107,10 @@
 		69FADC901D30BDB9001F2E11 /* Pilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696534871D17100900DF97CB /* Pilot.framework */; };
 		69FADC921D30BDBE001F2E11 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69FADC911D30BDBE001F2E11 /* Foundation.framework */; };
 		69FADC941D30BDC2001F2E11 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69FADC931D30BDC2001F2E11 /* AppKit.framework */; };
-		A437EDA81E56507600F67B37 /* SimpleModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* SimpleModelCollection.swift */; };
-		A437EDA91E56507600F67B37 /* SimpleModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* SimpleModelCollection.swift */; };
-		A437EDAB1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAA1E5655AD00F67B37 /* SimpleModelCollection.swift */; };
-		A437EDAC1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAA1E5655AD00F67B37 /* SimpleModelCollection.swift */; };
+		A437EDA81E56507600F67B37 /* BaseModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* BaseModelCollection.swift */; };
+		A437EDA91E56507600F67B37 /* BaseModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* BaseModelCollection.swift */; };
+		A437EDAB1E5655AD00F67B37 /* BaseModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAA1E5655AD00F67B37 /* BaseModelCollection.swift */; };
+		A437EDAC1E5655AD00F67B37 /* BaseModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAA1E5655AD00F67B37 /* BaseModelCollection.swift */; };
 		A437EDAE1E5660CE00F67B37 /* AsyncModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAD1E5660CE00F67B37 /* AsyncModelCollection.swift */; };
 		A437EDAF1E5660CE00F67B37 /* AsyncModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAD1E5660CE00F67B37 /* AsyncModelCollection.swift */; };
 		A437EDB31E56632A00F67B37 /* AsyncModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDB01E56628900F67B37 /* AsyncModelCollectionTests.swift */; };
@@ -255,8 +255,8 @@
 		69FADC8B1D30BBF0001F2E11 /* CollectionViewInternals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = CollectionViewInternals.swift; path = UI/Source/CollectionViews/CollectionViewInternals.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		69FADC911D30BDBE001F2E11 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		69FADC931D30BDC2001F2E11 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
-		A437EDA71E56507600F67B37 /* SimpleModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleModelCollection.swift; path = Core/Tests/MVVM/SimpleModelCollection.swift; sourceTree = "<group>"; };
-		A437EDAA1E5655AD00F67B37 /* SimpleModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleModelCollection.swift; path = Core/Source/MVVM/SimpleModelCollection.swift; sourceTree = "<group>"; };
+		A437EDA71E56507600F67B37 /* BaseModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseModelCollection.swift; path = Core/Tests/MVVM/BaseModelCollection.swift; sourceTree = "<group>"; };
+		A437EDAA1E5655AD00F67B37 /* BaseModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseModelCollection.swift; path = Core/Source/MVVM/BaseModelCollection.swift; sourceTree = "<group>"; };
 		A437EDAD1E5660CE00F67B37 /* AsyncModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncModelCollection.swift; path = Core/Source/MVVM/AsyncModelCollection.swift; sourceTree = "<group>"; };
 		A437EDB01E56628900F67B37 /* AsyncModelCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AsyncModelCollectionTests.swift; path = Core/Tests/MVVM/AsyncModelCollectionTests.swift; sourceTree = "<group>"; };
 		A455A7E51E5F6C3900F63A37 /* PilotUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PilotUI.swift; path = UI/Tests/PilotUI.swift; sourceTree = "<group>"; };
@@ -530,7 +530,7 @@
 			children = (
 				692936101E130468001303D2 /* Action.swift */,
 				A437EDAD1E5660CE00F67B37 /* AsyncModelCollection.swift */,
-				A437EDAA1E5655AD00F67B37 /* SimpleModelCollection.swift */,
+				A437EDAA1E5655AD00F67B37 /* BaseModelCollection.swift */,
 				69F89E751C52F06200F08E28 /* Context.swift */,
 				022862571DB0070100FCD03F /* DiffEngine.swift */,
 				6919D2BF1C90DC3A0075F997 /* EmptyModelCollection.swift */,
@@ -598,7 +598,7 @@
 				A4AED3D71D402EBB001F3524 /* MappedModelCollectionTests.swift */,
 				65032E321E5BE079008020BF /* MultiplexModelCollectionTests.swift */,
 				65107D9E1E5B4373002FF5F0 /* ScoredModelCollectionTests.swift */,
-				A437EDA71E56507600F67B37 /* SimpleModelCollection.swift */,
+				A437EDA71E56507600F67B37 /* BaseModelCollection.swift */,
 				654229B51E63D68E00C053FE /* SwitchableModelCollectionTests.swift */,
 				02AB7E5C1DCA7EF1003F11FE /* TestModel.swift */,
 			);
@@ -958,7 +958,7 @@
 				6988476B1CE6459B0075D205 /* StaticViewBindingProvider.swift in Sources */,
 				690E1AAA1E54CDB600B257CA /* Token.swift in Sources */,
 				692936121E130468001303D2 /* Action.swift in Sources */,
-				A437EDAC1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */,
+				A437EDAC1E5655AD00F67B37 /* BaseModelCollection.swift in Sources */,
 				A437EDB61E567AE900F67B37 /* Async.swift in Sources */,
 				A460CC841E56195F00F9AC6F /* Downcast.swift in Sources */,
 				698F3F7F1CE543DB00076B8C /* StaticModel.swift in Sources */,
@@ -986,7 +986,7 @@
 				65107DA31E5B44BB002FF5F0 /* ModelCollectionHelpers.swift in Sources */,
 				A4AED3DB1D402F27001F3524 /* MappedModelCollectionTests.swift in Sources */,
 				02AB7E5E1DCA7EF1003F11FE /* TestModel.swift in Sources */,
-				A437EDA91E56507600F67B37 /* SimpleModelCollection.swift in Sources */,
+				A437EDA91E56507600F67B37 /* BaseModelCollection.swift in Sources */,
 				D554074A1CA5B1BC00069CB9 /* EmptyModelCollectionTests.swift in Sources */,
 				0200342F1DA80C5C00D47380 /* ObservableTests.swift in Sources */,
 				65032E301E5BDE1B008020BF /* ScoredModelCollectionTests.swift in Sources */,
@@ -1032,7 +1032,7 @@
 				65107DA21E5B44BB002FF5F0 /* ModelCollectionHelpers.swift in Sources */,
 				A4AED3DA1D402F26001F3524 /* MappedModelCollectionTests.swift in Sources */,
 				02AB7E5D1DCA7EF1003F11FE /* TestModel.swift in Sources */,
-				A437EDA81E56507600F67B37 /* SimpleModelCollection.swift in Sources */,
+				A437EDA81E56507600F67B37 /* BaseModelCollection.swift in Sources */,
 				693F04D31D22E21400CAE010 /* FilteredModelCollectionTests.swift in Sources */,
 				0200342E1DA80C5C00D47380 /* ObservableTests.swift in Sources */,
 				65032E311E5BE01E008020BF /* ScoredModelCollectionTests.swift in Sources */,
@@ -1059,7 +1059,7 @@
 				696534A11D1710D400DF97CB /* EmptyModelCollection.swift in Sources */,
 				A4AED3D51D402D73001F3524 /* MappedModelCollection.swift in Sources */,
 				690E1AA91E54CDB600B257CA /* Token.swift in Sources */,
-				A437EDAB1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */,
+				A437EDAB1E5655AD00F67B37 /* BaseModelCollection.swift in Sources */,
 				A460CC831E56195F00F9AC6F /* Downcast.swift in Sources */,
 				A437EDB51E567AE800F67B37 /* Async.swift in Sources */,
 				696534AB1D1710D400DF97CB /* View.swift in Sources */,

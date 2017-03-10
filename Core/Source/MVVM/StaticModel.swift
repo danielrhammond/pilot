@@ -2,7 +2,7 @@ import Foundation
 
 
 /// Concrete `Model` implementation which is generic on any data. Commonly used along with `StaticViewModel` and
-/// `SimpleModelCollectionConfiguration` for creating full MVVM stacks using simple data.
+/// `BaseModelCollectionConfiguration` for creating full MVVM stacks using simple data.
 ///  e.g. `let item = StaticModel(modelId: "1", data: "Some string")`
 public struct StaticModel<StaticData>: Model, ViewModelConvertible {
 
@@ -33,7 +33,7 @@ public struct StaticModel<StaticData>: Model, ViewModelConvertible {
 }
 
 /// Concrete `ViewModel` implementation which binds to a `StaticModel<StaticData>` type. Commonly used along with
-/// `StaticModel` and `SimpleModelCollectionConfiguration` for creating full MVVM stacks using simple data.
+/// `StaticModel` and `BaseModelCollectionConfiguration` for creating full MVVM stacks using simple data.
 public struct StaticViewModel<StaticData>: ViewModel {
 
     // MARK: Public

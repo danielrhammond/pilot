@@ -1,6 +1,6 @@
 /// AsyncModelCollection provides a simple interface for firing a single provider closure that can asynchronously return
 /// an error or sectioned models.
-public final class AsyncModelCollection: SimpleModelCollection {
+public final class AsyncModelCollection: BaseModelCollection {
 
     public enum Result {
         case success([[Model]])

@@ -1,21 +1,21 @@
 import XCTest
 @testable import Pilot
 
-class SimpleModelCollectionTests: XCTestCase {
+class BaseModelCollectionTests: XCTestCase {
 
     func testShouldStartNotLoaded() {
-        let simple = SimpleModelCollection()
-        XCTAssert(simple.state.isNotLoaded, "SimpleModelCollection should be notLoaded before there are any events")
+        let simple = BaseModelCollection()
+        XCTAssert(simple.state.isNotLoaded, "BaseModelCollection should be notLoaded before there are any events")
     }
 
     func testShouldPropegateLoading() {
-        let simple = SimpleModelCollection()
+        let simple = BaseModelCollection()
         simple.onNext(.loading(nil))
-        XCTAssert(simple.state.isLoading, "SimpleModelCollection should be loading after receiving loading event")
+        XCTAssert(simple.state.isLoading, "BaseModelCollection should be loading after receiving loading event")
     }
 
     func testShouldPropegateModels() {
-        let simple = SimpleModelCollection()
+        let simple = BaseModelCollection()
         let test = TM(id: "stub", version: 1)
         simple.onNext(.loaded([[test]]))
         let first = simple.state.sections.first
@@ -24,7 +24,7 @@ class SimpleModelCollectionTests: XCTestCase {
     }
 
     func testShouldPropegateLoadingMore() {
-        let simple = SimpleModelCollection()
+        let simple = BaseModelCollection()
         let test = TM(id: "stub", version: 1)
         simple.onNext(.loading([[test]]))
         let first = simple.state.sections.first
