@@ -1,11 +1,10 @@
 import Foundation
 import Pilot
 
-public final class MediaSearchModelCollection: SimpleModelCollection {
+public final class MediaSearchModelCollection: ModelCollection, ProxyingCollectionEventObservable {
 
     init() {
-        super.init(collectionId: "MediaSearchModelCollection")
-        onNext(.loaded([]))
+        state = .loaded([])
     }
 
     // MARK: Public
@@ -17,7 +16,7 @@ public final class MediaSearchModelCollection: SimpleModelCollection {
 
     public func updateQuery(_ query: String) {
         guard query != previousQuery else { return }
-        onNext(.loading(state.sections))
+        state = .loading(state.sections)
         previousQuery = query
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
             guard query == self?.previousQuery else { return }
@@ -25,15 +24,31 @@ public final class MediaSearchModelCollection: SimpleModelCollection {
                 DispatchQueue.main.async {
                     guard let strongSelf = self, strongSelf.previousQuery == query else { return }
                     if let media = media {
-                        strongSelf.onNext(.loaded([media]))
+                        strongSelf.state = .loaded([media])
                     } else {
                         let error: MediaSearchError = error.flatMap({ .service($0) }) ?? .unknown
-                        strongSelf.onNext(.error(error))
+                        strongSelf.state = .error(error)
                     }
                 }
             }
         }
     }
+
+    // MARK: ModelCollection
+
+    public let collectionId: ModelCollectionId = "MediaSearchModelCollection"
+
+    public private(set) final var state = ModelCollectionState.notLoaded {
+        didSet {
+            precondition(Thread.isMainThread)
+            observers.notify(.didChangeState(state))
+        }
+    }
+
+    // MARK: CollectionEventObservable
+
+    public final var proxiedObservable: GenericObservable<CollectionEvent> { return observers }
+    private final let observers = ObserverList<CollectionEvent>()
 
     // MARK: Private
 

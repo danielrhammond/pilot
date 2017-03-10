@@ -1,8 +1,8 @@
 /// Simple class that provides ModelCollection conformance to a series of events, easiest way to quickly wrap something
 /// that will emit models into a ModelCollection.
-open class SimpleModelCollection: ModelCollection, ProxyingCollectionEventObservable {
+public class SimpleModelCollection: ModelCollection, ProxyingCollectionEventObservable {
 
-    public init(collectionId: ModelCollectionId = "simplemodelcollection-" + Token.makeUnique().stringValue) {
+    internal init(collectionId: ModelCollectionId = "simplemodelcollection-" + Token.makeUnique().stringValue) {
         self.collectionId = collectionId
     }
 
@@ -10,14 +10,14 @@ open class SimpleModelCollection: ModelCollection, ProxyingCollectionEventObserv
     ///
     /// SimpleModelCollection will begin as a notLoaded ModelCollection, the other event cases match 1:1 with
     /// state values.
-    public enum Event {
+    internal enum Event {
         case loading([[Model]]?)
         case error(Error)
         case loaded([[Model]])
     }
 
-    /// Public called to notify the model collection of an event.
-    public final func onNext(_ event: Event) {
+    /// Called to notify the model collection of an event.
+    internal final func onNext(_ event: Event) {
         switch event {
         case .loading(let models): state = .loading(models)
         case .error(let e): state = .error(e)
