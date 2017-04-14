@@ -39,6 +39,8 @@
 		65107DA31E5B44BB002FF5F0 /* ModelCollectionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65107DA11E5B44BB002FF5F0 /* ModelCollectionHelpers.swift */; };
 		654229B61E63D68E00C053FE /* SwitchableModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654229B51E63D68E00C053FE /* SwitchableModelCollectionTests.swift */; };
 		654229B71E63D68E00C053FE /* SwitchableModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654229B51E63D68E00C053FE /* SwitchableModelCollectionTests.swift */; };
+		657E92E31EA0B79500517663 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974F89B1C504BD50029ED48 /* Async.swift */; };
+		657E92E41EA0B79600517663 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974F89B1C504BD50029ED48 /* Async.swift */; };
 		69048A081C46FF23000CE840 /* Pilot.h in Headers */ = {isa = PBXBuildFile; fileRef = 69048A071C46FF23000CE840 /* Pilot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69048A0F1C46FF23000CE840 /* Pilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69048A041C46FF23000CE840 /* Pilot.framework */; };
 		69048A361C47045D000CE840 /* PilotUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 69048A351C47045D000CE840 /* PilotUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,8 +117,6 @@
 		A437EDAF1E5660CE00F67B37 /* AsyncModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDAD1E5660CE00F67B37 /* AsyncModelCollection.swift */; };
 		A437EDB31E56632A00F67B37 /* AsyncModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDB01E56628900F67B37 /* AsyncModelCollectionTests.swift */; };
 		A437EDB41E56632A00F67B37 /* AsyncModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDB01E56628900F67B37 /* AsyncModelCollectionTests.swift */; };
-		A437EDB51E567AE800F67B37 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974F89B1C504BD50029ED48 /* Async.swift */; };
-		A437EDB61E567AE900F67B37 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974F89B1C504BD50029ED48 /* Async.swift */; };
 		A455A7E61E5F6C3900F63A37 /* PilotUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A455A7E51E5F6C3900F63A37 /* PilotUI.swift */; };
 		A455A7E71E5F6C3900F63A37 /* PilotUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A455A7E51E5F6C3900F63A37 /* PilotUI.swift */; };
 		A460CC831E56195F00F9AC6F /* Downcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A460CC821E56195F00F9AC6F /* Downcast.swift */; };
@@ -959,7 +959,7 @@
 				690E1AAA1E54CDB600B257CA /* Token.swift in Sources */,
 				692936121E130468001303D2 /* Action.swift in Sources */,
 				A437EDAC1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */,
-				A437EDB61E567AE900F67B37 /* Async.swift in Sources */,
+				657E92E41EA0B79600517663 /* Async.swift in Sources */,
 				A460CC841E56195F00F9AC6F /* Downcast.swift in Sources */,
 				698F3F7F1CE543DB00076B8C /* StaticModel.swift in Sources */,
 				69F89E791C52F06200F08E28 /* ModelCollection.swift in Sources */,
@@ -1061,7 +1061,7 @@
 				690E1AA91E54CDB600B257CA /* Token.swift in Sources */,
 				A437EDAB1E5655AD00F67B37 /* SimpleModelCollection.swift in Sources */,
 				A460CC831E56195F00F9AC6F /* Downcast.swift in Sources */,
-				A437EDB51E567AE800F67B37 /* Async.swift in Sources */,
+				657E92E31EA0B79500517663 /* Async.swift in Sources */,
 				696534AB1D1710D400DF97CB /* View.swift in Sources */,
 				022862581DB0070100FCD03F /* DiffEngine.swift in Sources */,
 				692936111E130468001303D2 /* Action.swift in Sources */,

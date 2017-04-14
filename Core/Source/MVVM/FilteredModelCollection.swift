@@ -13,7 +13,7 @@ public final class FilteredModelCollection: ModelCollection, ProxyingCollectionE
     /// across threads.
     public enum FilterKind {
         case sync
-        case async(queue: Queue)
+        case async(queue: DispatchQueue)
 
         fileprivate func run(_ filter: @escaping () -> Void, then postFilter: @escaping () -> Void) {
             switch self {

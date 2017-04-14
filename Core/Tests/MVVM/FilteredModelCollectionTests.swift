@@ -87,7 +87,7 @@ class FilteredModelCollectionTests: XCTestCase {
 
     func testAsync() {
         let expectation = self.expectation(description: "filter")
-        let subject = createFilteredModelCollection(testData, kind: .async(queue: .background)) { _ in
+        let subject = createFilteredModelCollection(testData, kind: .async(queue: .global(qos: .background))) { _ in
             return false
         }
         XCTAssert(subject.state.isLoading)
@@ -99,7 +99,7 @@ class FilteredModelCollectionTests: XCTestCase {
     func testDiscardsStaleAsyncResults() {
         let expectation = self.expectation(description: "slowFilter")
         var hasSlept = false
-        let subject = createFilteredModelCollection(testData, kind: .async(queue: .background)) { _ in
+        let subject = createFilteredModelCollection(testData, kind: .async(queue: .global(qos: .background))) { _ in
             if !hasSlept {
                 Thread.sleep(forTimeInterval: 0.25)
                 hasSlept = true

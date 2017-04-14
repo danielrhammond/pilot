@@ -1,43 +1,10 @@
 import Foundation
 
-/// Enumeration of available system queues.
-public enum Queue {
-    case main
-    case userInteractive
-    case userInitiated
-    case utility
-    case background
-    case custom(DispatchQueue)
-
-    /// Create a new serial queue with the given label.
-    public static func createSerial(_ label: String) -> Queue {
-        return .custom(DispatchQueue(label: label, attributes: []))
-    }
-
-    /// Returns the GCD dispatch queue for the target type.
-    public func toDispatch() -> DispatchQueue {
-        switch self {
-        case .main:
-            return DispatchQueue.main
-        case .userInteractive:
-            return DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive)
-        case .userInitiated:
-            return DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
-        case .utility:
-            return DispatchQueue.global(qos: DispatchQoS.QoSClass.utility)
-        case .background:
-            return DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-        case .custom(let queue):
-            return queue
-        }
-    }
-}
-
 /// Issue a precondition failure if we are not currently running on the specified queue, at least as far as we can
 /// distinguish via its label.
-public func preconditionOnQueue(_ queue: Queue) {
+public func preconditionOnQueue(_ queue: DispatchQueue) {
     if #available(iOS 10, OSX 10.12, *) {
-        dispatchPrecondition(condition: .onQueue(queue.toDispatch()))
+        dispatchPrecondition(condition: .onQueue(queue))
     }
 }
 
@@ -67,76 +34,64 @@ public struct Async {
 
     @discardableResult
     public static func onUserInteractive(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .userInteractive, block: block)
+        return dispatch(queue: .global(qos: .userInteractive), block: block)
     }
 
     @discardableResult
     public static func onUserInitiated(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .userInitiated, block: block)
+        return dispatch(queue: .global(qos: .userInitiated), block: block)
     }
 
     @discardableResult
     public static func onUtility(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .utility, block: block)
+        return dispatch(queue: .global(qos: .utility), block: block)
     }
 
     @discardableResult
     public static func onBackground(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .background, block: block)
+        return dispatch(queue: .global(qos: .background), block: block)
     }
 
     @discardableResult
-    public static func on(_ customQueue: Queue, block: @escaping ()->()) -> Async {
+    public static func on(_ customQueue: DispatchQueue, block: @escaping ()->()) -> Async {
         return dispatch(queue: customQueue, block: block)
     }
 
     @discardableResult
-    public static func on(_ queue: Queue, waitingFor group: DispatchGroup, block: @escaping ()->()) -> Async {
-        return dispatchWaitingFor(dispatchGroup: group, dispatchQueue: queue.toDispatch(), block)
+    public static func on(_ queue: DispatchQueue, waitingFor group: DispatchGroup, block: @escaping ()->()) -> Async {
+        return dispatchWaitingFor(dispatchGroup: group, dispatchQueue: queue, block)
     }
 
     // MARK: Chained Convenience Methods
 
     @discardableResult
     public func onMain(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .main, block: block)
+        return dispatchDependentBlock(block, queue: .main)
     }
 
     @discardableResult
     public func onUserInteractive(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .userInteractive, block: block)
+        return dispatchDependentBlock(block, queue: .global(qos: .userInteractive))
     }
 
     @discardableResult
     public func onUserInitiated(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .userInitiated, block: block)
+        return dispatchDependentBlock(block, queue: .global(qos: .userInitiated))
     }
 
     @discardableResult
     public func onUtility(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .utility, block: block)
+        return dispatchDependentBlock(block, queue: .global(qos: .utility))
     }
 
     @discardableResult
     public func onBackground(_ block: @escaping ()->()) -> Async {
-        return dispatch(queue: .background, block: block)
+        return dispatchDependentBlock(block, queue: .global(qos: .background))
     }
 
     @discardableResult
-    public func on(_ customQueue: Queue, block: @escaping ()->()) -> Async {
-        return dispatch(queue: customQueue, block: block)
-    }
-
-    // MARK: Core Methods
-
-    @discardableResult
-    public static func dispatch(queue: Queue, block: @escaping ()->()) -> Async {
-        return dispatch(queue.toDispatch(), block)
-    }
-
-    @discardableResult
-    public func dispatch(queue: Queue, block: @escaping ()->()) -> Async {
-        return dispatchDependentBlock(queue.toDispatch(), block)
+    public func on(_ customQueue: DispatchQueue, block: @escaping ()->()) -> Async {
+        return dispatchDependentBlock(block, queue: customQueue)
     }
 
     // MARK: Private
@@ -151,15 +106,15 @@ public struct Async {
         self.workItem = workItem
     }
 
-    private static func dispatch(_ dispatchQueue: DispatchQueue, _ block: @escaping ()->()) -> Async {
+    private static func dispatch(queue: DispatchQueue, block: @escaping ()->()) -> Async {
         let item = DispatchWorkItem(qos: .default, flags: .inheritQoS, block: block)
-        dispatchQueue.async(execute: item)
+        queue.async(execute: item)
         return Async(item)
     }
 
-    private func dispatchDependentBlock(_ dispatchQueue: DispatchQueue, _ dependentBlock: @escaping ()->()) -> Async {
+    private func dispatchDependentBlock(_ dependentBlock: @escaping ()->(), queue: DispatchQueue) -> Async {
         let notifyItem = DispatchWorkItem(qos: .default, flags: .inheritQoS, block: dependentBlock)
-        workItem.notify(queue: dispatchQueue, execute: notifyItem)
+        workItem.notify(queue: queue, execute: notifyItem)
         return Async(notifyItem)
     }
 
@@ -235,16 +190,14 @@ public extension Async {
     /// - Note: The provided queue must be serial.
     public static func coalesce<T>(
         coalesceTime: DispatchTimeInterval,
-        queue: Queue = .main,
+        queue: DispatchQueue = .main,
         reducer: @escaping (T, T) -> T,
         block: @escaping (T) -> Void
     ) -> (T) -> Void {
-        let dispatchQueue = queue.toDispatch()
-
         /// Contains the batched argument constructed so far.
         var batchedArgument: T?
         return { value in
-            dispatchQueue.async {
+            queue.async {
                 let firstValueSinceFlush = (batchedArgument == nil)
 
                 if let batchedArgumentUnwrapped = batchedArgument {
@@ -256,7 +209,7 @@ public extension Async {
                 if firstValueSinceFlush {
                     let time: DispatchTime = DispatchTime.now() + coalesceTime
 
-                    dispatchQueue.asyncAfter(deadline: time, execute: DispatchWorkItem {
+                    queue.asyncAfter(deadline: time, execute: DispatchWorkItem {
                         guard let unwrappedBatchedArgument: T = batchedArgument else {
                             preconditionFailure("Shouldn't have started a timer if there wasn't a set argument.")
                         }
@@ -273,7 +226,7 @@ public extension Async {
     /// - Note: The provided queue must be serial.
     public static func coalesce<T>(
         coalesceTime: DispatchTimeInterval,
-        queue: Queue = .main,
+        queue: DispatchQueue = .main,
         block: @escaping ([T]) -> Void
     ) -> ([T]) -> Void {
         return coalesce(coalesceTime: coalesceTime, queue: queue, reducer: +, block: block)
@@ -283,7 +236,7 @@ public extension Async {
     /// - Note: The provided queue must be serial.
     public static func coalesce<T>(
         coalesceTime: DispatchTimeInterval,
-        queue: Queue = .main,
+        queue: DispatchQueue = .main,
         block: @escaping (Set<T>) -> Void
     ) -> (Set<T>) -> Void {
         let reducer = { (a: Set<T>, b: Set<T>) -> Set<T> in

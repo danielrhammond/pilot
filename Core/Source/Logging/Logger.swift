@@ -95,7 +95,7 @@ public struct Log {
     }
 
     static public func removeLogger(_ token: LoggerToken) {
-        Async.on(loggingQueue) {
+        loggingQueue.async {
             loggers[token] = nil
         }
     }
@@ -103,7 +103,7 @@ public struct Log {
     static public func addLogger(_ logger: Logger) -> LoggerToken {
         let token = nextLoggerToken
         nextLoggerToken += 1
-        Async.on(loggingQueue) {
+        loggingQueue.async {
             loggers[token] = logger
         }
         return token
@@ -116,7 +116,7 @@ public struct Log {
     /// is complete.  To do this, one can schedule a sentinel on the serial queues used for logging, and when
     /// the sentinel comes through, one can be sure that a previous logging request should have completed
     static internal func sendSentinelThroughQueue(_ sentinel: String, completion: @escaping (String) -> Void) {
-        Async.on(loggingQueue) {
+        loggingQueue.async {
             completion(sentinel)
         }
     }
@@ -124,7 +124,7 @@ public struct Log {
     // MARK: Private
 
     static fileprivate func log(_ severity: Severity, category: Category, message: String) {
-        Async.on(loggingQueue) {
+        loggingQueue.async {
             let date = Date()
             for (_, logger) in loggers {
                 logger.log(message, date: date, severity: severity, category: category)
@@ -132,10 +132,7 @@ public struct Log {
         }
     }
 
-    static fileprivate let loggingQueue: Queue = .custom(DispatchQueue(
-        label: "com.dropbox.pilot.log.loggingQ",
-        attributes: []
-    ))
+    static fileprivate let loggingQueue = DispatchQueue(label: "com.dropbox.pilot.log.loggingQ", attributes: [])
 
     static fileprivate var nextLoggerToken: Int = 0
     static fileprivate var loggers: [LoggerToken: Logger] = [:]

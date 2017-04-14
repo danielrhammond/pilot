@@ -21,10 +21,6 @@ public final class MultiplexModelCollection: ModelCollection, ProxyingCollection
     // MARK: Init
 
     public required init(_ modelCollections: [ModelCollection]) {
-        // Create a worker queue for processing/diffing incoming events.
-        let queue = DispatchQueue(label: "com.dropbox.pilot.queue.store_model_collection", attributes: [])
-        self.eventProcessingQueue = Queue.custom(queue)
-
         self.modelCollections = modelCollections
 
         // Update state to match the contained ModelCollections, since they may not start in the NotLoaded state.
@@ -179,7 +175,4 @@ public final class MultiplexModelCollection: ModelCollection, ProxyingCollection
 
     // set of observer tokens for each of the subcollections
     private var observationTokens: [Observer] = []
-
-    // maintain queue to ensure that events are processed serially
-    private let eventProcessingQueue: Queue
 }
