@@ -38,29 +38,9 @@ public protocol ViewModel {
     func secondaryActions(for event: ViewModelUserEvent) -> [SecondaryAction]
 }
 
-/// Event types that view models may handle, typically sent from the view layer.
-public enum ViewModelUserEvent {
-    /// On mouse-supporting platforms, represents a click by the user.
-    case click
 
-    /// Represents the user typing enter/return.
-    case enterKey
 
-    /// Represents the user typing space.
-    case spaceKey
 
-    /// Reprsents the user performing a long-press on the target view model.
-    case longPress
-
-    /// On mouse-supporting platforms, represents a secondary (right) click by the user.
-    case secondaryClick
-
-    /// On any platform, represents the target being selected (via mouse, programatically, or tap).
-    case select
-
-    /// On touch platforms, represents the target receiving a single tap.
-    case tap
-}
 
 /// Wraps an `Action` with additional data to be rendered in a "secondary" context like context menus or long-press
 /// menus.
