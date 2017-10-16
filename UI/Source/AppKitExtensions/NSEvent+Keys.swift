@@ -9,23 +9,54 @@ public extension NSEvent {
     }
 
     public var eventKeyModifierFlags: EventKeyModifierFlags {
+        return modifierFlags.eventKeyModifierFlags
+    }
+}
+
+extension NSEvent.ModifierFlags {
+    public var eventKeyModifierFlags: EventKeyModifierFlags {
         var result = EventKeyModifierFlags(rawValue: 0)
-        if modifierFlags.contains(.capsLock) {
+        if contains(.capsLock) {
             result.formUnion(.capsLock)
         }
-        if modifierFlags.contains(.command) {
+        if contains(.command) {
             result.formUnion(.command)
         }
-        if modifierFlags.contains(.control) {
+        if contains(.control) {
             result.formUnion(.control)
         }
-        if modifierFlags.contains(.function) {
+        if contains(.function) {
             result.formUnion(.function)
         }
-        if modifierFlags.contains(.option) {
+        if contains(.option) {
             result.formUnion(.option)
         }
-        if modifierFlags.contains(.shift) {
+        if contains(.shift) {
+            result.formUnion(.shift)
+        }
+        return result
+    }
+}
+
+extension EventKeyModifierFlags {
+    public var modifierFlags: NSEvent.ModifierFlags {
+        var result = NSEvent.ModifierFlags(rawValue: 0)
+        if contains(.capsLock) {
+            result.formUnion(.capsLock)
+        }
+        if contains(.command) {
+            result.formUnion(.command)
+        }
+        if contains(.control) {
+            result.formUnion(.control)
+        }
+        if contains(.function) {
+            result.formUnion(.function)
+        }
+        if contains(.option) {
+            result.formUnion(.option)
+        }
+        if contains(.shift) {
             result.formUnion(.shift)
         }
         return result

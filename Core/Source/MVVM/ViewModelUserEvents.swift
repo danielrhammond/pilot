@@ -79,8 +79,7 @@ public enum EventKeyCode: UInt16, RawRepresentable {
     case unknown                   = 0x0
 }
 
-@objc
-public final class EventKeyModifierFlags: NSObject, OptionSet {
+public struct EventKeyModifierFlags: OptionSet {
 
     // MARK: OptionSet
 

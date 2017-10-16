@@ -83,6 +83,9 @@ public extension ViewModel {
     func handleUserEvent(_ event: ViewModelUserEvent) {}
 
     func canHandleUserEvent(_ event: ViewModelUserEvent) -> Bool {
+        if case .keyDown = event {
+            return false
+        }
         return true
     }
 

@@ -221,11 +221,11 @@ open class CollectionViewController: NSViewController, CollectionViewDelegate {
     open func collectionViewDidReceiveKeyEvent(
         _ collectionView: NSCollectionView,
         key: EventKeyCode,
-        modifiers: EventKeyModifierFlags
+        modifiers: NSEvent.ModifierFlags
     ) -> Bool {
         guard let indexPath = collectionView.selectionIndexPaths.first else { return false }
         guard let vm = viewModelAtIndexPath(indexPath) else { return false }
-        let event = ViewModelUserEvent.keyDown(key, modifiers)
+        let event = ViewModelUserEvent.keyDown(key, modifiers.eventKeyModifierFlags)
         if vm.canHandleUserEvent(event) {
             vm.handleUserEvent(event)
             return true
