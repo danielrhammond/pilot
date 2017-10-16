@@ -79,6 +79,7 @@ public enum EventKeyCode: UInt16, RawRepresentable {
     case unknown                   = 0x0
 }
 
+/// Simple wrapper around NSEvent.ModifierFlags to avoid importing AppKit.
 public struct EventKeyModifierFlags: OptionSet {
 
     // MARK: OptionSet

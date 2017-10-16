@@ -38,10 +38,6 @@ public protocol ViewModel {
     func secondaryActions(for event: ViewModelUserEvent) -> [SecondaryAction]
 }
 
-
-
-
-
 /// Wraps an `Action` with additional data to be rendered in a "secondary" context like context menus or long-press
 /// menus.
 public struct SecondaryActionInfo {
@@ -82,6 +78,7 @@ public extension ViewModel {
 
     func handleUserEvent(_ event: ViewModelUserEvent) {}
 
+    /// By default returns true for all non-keyboard events.
     func canHandleUserEvent(_ event: ViewModelUserEvent) -> Bool {
         if case .keyDown = event {
             return false
