@@ -1,5 +1,6 @@
 import Cocoa
 import Pilot
+import PilotUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -8,7 +9,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         window.minSize = CGSize(width: 480, height: 360)
-        window.contentViewController = DirectoryViewController(
+        window.contentViewController = DirectoryOutlineViewController(
             url: FileManager.default.homeDirectoryForCurrentUser,
             context: rootContext)
 
