@@ -117,6 +117,9 @@
 		8E0E6F291EE89A3D00D1CB86 /* SortedModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E6F271EE89A3D00D1CB86 /* SortedModelCollectionTests.swift */; };
 		9CA5FC4E1FB9A65300F85B98 /* CollectionViewHostReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5FC4D1FB9A65300F85B98 /* CollectionViewHostReusableView.swift */; };
 		9CA5FC521FB9A81A00F85B98 /* CollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5FC511FB9A81A00F85B98 /* CollectionViewTests.swift */; };
+		A4002B132089552A00B95A90 /* OutlineViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002B122089552A00B95A90 /* OutlineViews.swift */; };
+		A4002D1F208EDC0B00B95A90 /* ModelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002D1E208EDC0B00B95A90 /* ModelCollectionViewController.swift */; };
+		A4002D21208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002D20208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift */; };
 		A428996E1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */; };
 		A428996F1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */; };
 		A42899711FA1393500EA4422 /* ViewModelBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42899701FA1393500EA4422 /* ViewModelBinding.swift */; };
@@ -282,6 +285,9 @@
 		8E0E6F271EE89A3D00D1CB86 /* SortedModelCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SortedModelCollectionTests.swift; path = Core/Tests/MVVM/SortedModelCollectionTests.swift; sourceTree = "<group>"; };
 		9CA5FC4D1FB9A65300F85B98 /* CollectionViewHostReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionViewHostReusableView.swift; path = UI/Source/CollectionViews/mac/CollectionViewHostReusableView.swift; sourceTree = "<group>"; };
 		9CA5FC511FB9A81A00F85B98 /* CollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTests.swift; sourceTree = "<group>"; };
+		A4002B122089552A00B95A90 /* OutlineViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViews.swift; sourceTree = "<group>"; };
+		A4002D1E208EDC0B00B95A90 /* ModelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCollectionViewController.swift; sourceTree = "<group>"; };
+		A4002D20208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCollectionStateViewTypes.swift; sourceTree = "<group>"; };
 		A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondaryActionInfo.swift; path = Core/Source/MVVM/SecondaryActionInfo.swift; sourceTree = "<group>"; };
 		A42899701FA1393500EA4422 /* ViewModelBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelBinding.swift; path = Core/Source/MVVM/ViewModelBinding.swift; sourceTree = "<group>"; };
 		A437EDA71E56507600F67B37 /* SimpleModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleModelCollection.swift; path = Core/Tests/MVVM/SimpleModelCollection.swift; sourceTree = "<group>"; };
@@ -505,12 +511,14 @@
 				3C6C9E211F31254F00D13B52 /* Alerts */,
 				697D0FCC1D37006300310F81 /* AppKitExtensions */,
 				69048A9A1C470F08000CE840 /* CollectionViews */,
+				A4002D1C208EDBEE00B95A90 /* Common */,
+				690E1A9B1E54C04700B257CA /* Extensions */,
 				69FADB581D305440001F2E11 /* Info-iOS.plist */,
 				69FADB591D305440001F2E11 /* Info-macOS.plist */,
 				69F91DB91C4ED7A300B1EA1F /* Layout */,
+				A4002B152089553400B95A90 /* OutlineViews */,
 				69048A351C47045D000CE840 /* PilotUI.h */,
 				697D13331D4056CC00310F81 /* PlatformAliases.swift */,
-				690E1A9B1E54C04700B257CA /* Extensions */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -653,6 +661,39 @@
 			);
 			name = mac;
 			path = UI/Tests/CollectionView/mac;
+			sourceTree = "<group>";
+		};
+		A4002B152089553400B95A90 /* OutlineViews */ = {
+			isa = PBXGroup;
+			children = (
+				A4002D1B208EDBC200B95A90 /* mac */,
+			);
+			path = OutlineViews;
+			sourceTree = "<group>";
+		};
+		A4002D1B208EDBC200B95A90 /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				A4002B122089552A00B95A90 /* OutlineViews.swift */,
+			);
+			path = mac;
+			sourceTree = "<group>";
+		};
+		A4002D1C208EDBEE00B95A90 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A4002D1D208EDBF700B95A90 /* mac */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		A4002D1D208EDBF700B95A90 /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				A4002D1E208EDC0B00B95A90 /* ModelCollectionViewController.swift */,
+				A4002D20208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift */,
+			);
+			path = mac;
 			sourceTree = "<group>";
 		};
 		A478F9301D3850BA000B2ADB /* Nested */ = {
@@ -1178,9 +1219,11 @@
 			files = (
 				A4CACF5C1D6FCC89003D572D /* LayoutConstraints.swift in Sources */,
 				9CA5FC4E1FB9A65300F85B98 /* CollectionViewHostReusableView.swift in Sources */,
+				A4002D21208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift in Sources */,
 				697D13351D4056CC00310F81 /* PlatformAliases.swift in Sources */,
 				69BACAE61DA8D5D500EF6E70 /* NSCollectionView+Selection.swift in Sources */,
 				697D10771D3D8FD300310F81 /* CollectionViewModelDataSource.swift in Sources */,
+				A4002D1F208EDC0B00B95A90 /* ModelCollectionViewController.swift in Sources */,
 				69FADC8A1D30B7FC001F2E11 /* CollectionHostedView.swift in Sources */,
 				690E1AA11E54C0E100B257CA /* NSMenu+Action.swift in Sources */,
 				697D0FCE1D37008D00310F81 /* NSEvent+Keys.swift in Sources */,
@@ -1190,6 +1233,7 @@
 				690E1AA51E54CAA000B257CA /* AssociatedObjects.swift in Sources */,
 				69519ADA1D34C669000426A9 /* CollectionView.swift in Sources */,
 				69FADC851D3076E2001F2E11 /* CollectionViewHostItem.swift in Sources */,
+				A4002B132089552A00B95A90 /* OutlineViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
