@@ -117,7 +117,7 @@
 		8E0E6F291EE89A3D00D1CB86 /* SortedModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E6F271EE89A3D00D1CB86 /* SortedModelCollectionTests.swift */; };
 		9CA5FC4E1FB9A65300F85B98 /* CollectionViewHostReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5FC4D1FB9A65300F85B98 /* CollectionViewHostReusableView.swift */; };
 		9CA5FC521FB9A81A00F85B98 /* CollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5FC511FB9A81A00F85B98 /* CollectionViewTests.swift */; };
-		A4002B132089552A00B95A90 /* OutlineViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002B122089552A00B95A90 /* OutlineViews.swift */; };
+		A4002B132089552A00B95A90 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002B122089552A00B95A90 /* OutlineViewController.swift */; };
 		A4002D1F208EDC0B00B95A90 /* ModelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002D1E208EDC0B00B95A90 /* ModelCollectionViewController.swift */; };
 		A4002D21208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4002D20208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift */; };
 		A428996E1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */; };
@@ -285,7 +285,7 @@
 		8E0E6F271EE89A3D00D1CB86 /* SortedModelCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SortedModelCollectionTests.swift; path = Core/Tests/MVVM/SortedModelCollectionTests.swift; sourceTree = "<group>"; };
 		9CA5FC4D1FB9A65300F85B98 /* CollectionViewHostReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionViewHostReusableView.swift; path = UI/Source/CollectionViews/mac/CollectionViewHostReusableView.swift; sourceTree = "<group>"; };
 		9CA5FC511FB9A81A00F85B98 /* CollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTests.swift; sourceTree = "<group>"; };
-		A4002B122089552A00B95A90 /* OutlineViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViews.swift; sourceTree = "<group>"; };
+		A4002B122089552A00B95A90 /* OutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
 		A4002D1E208EDC0B00B95A90 /* ModelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCollectionViewController.swift; sourceTree = "<group>"; };
 		A4002D20208EDCA800B95A90 /* ModelCollectionStateViewTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCollectionStateViewTypes.swift; sourceTree = "<group>"; };
 		A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondaryActionInfo.swift; path = Core/Source/MVVM/SecondaryActionInfo.swift; sourceTree = "<group>"; };
@@ -674,7 +674,7 @@
 		A4002D1B208EDBC200B95A90 /* mac */ = {
 			isa = PBXGroup;
 			children = (
-				A4002B122089552A00B95A90 /* OutlineViews.swift */,
+				A4002B122089552A00B95A90 /* OutlineViewController.swift */,
 			);
 			path = mac;
 			sourceTree = "<group>";
@@ -1233,7 +1233,7 @@
 				690E1AA51E54CAA000B257CA /* AssociatedObjects.swift in Sources */,
 				69519ADA1D34C669000426A9 /* CollectionView.swift in Sources */,
 				69FADC851D3076E2001F2E11 /* CollectionViewHostItem.swift in Sources */,
-				A4002B132089552A00B95A90 /* OutlineViews.swift in Sources */,
+				A4002B132089552A00B95A90 /* OutlineViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

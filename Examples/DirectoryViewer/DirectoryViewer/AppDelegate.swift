@@ -62,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false)
         window.minSize = size
-        let content = DirectoryViewController(
+        let content = DirectoryOutlineViewController(
             url: url,
             context: rootContext)
         window.contentViewController = content
