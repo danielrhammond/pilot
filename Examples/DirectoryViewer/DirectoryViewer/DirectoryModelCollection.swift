@@ -3,11 +3,41 @@ import Pilot
 public final class DirectoryModelCollection: NestedModelCollection, ProxyingCollectionEventObservable {
     public init(url: URL) {
         self.collectionId = "DMC-\(url.path)"
-        self.fileURLs = try! FileManager.default.contentsOfDirectory(
-            at: url,
-            includingPropertiesForKeys: nil,
-            options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants, .skipsPackageDescendants])
-        self.state = .loaded(fileURLs.map { File(url: $0) })
+        self.fileURLs = DirectoryModelCollection.scanDirectory(url)
+        let queue = DispatchQueue(label: "DispatchFileEventSource")
+        let handle: Int32 = open(url.path, O_EVTONLY)
+        guard handle != -1 else {
+            let error = NSError(
+                domain: "pilot.examples",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Unable to create dispatch file event source for path"])
+            self.state = .error(error)
+            self.fileHandle = nil
+            self.dispatchSource = nil
+            return
+        }
+
+        self.state = .loaded(fileURLs.map(File.init(url:)))
+        self.fileHandle = handle
+        self.dispatchSource = DispatchSource.makeFileSystemObjectSource(
+            fileDescriptor: handle,
+            eventMask: [.all],
+            queue: queue)
+
+        self.dispatchSource?.setEventHandler { [weak self] in
+            let updatedURLs = DirectoryModelCollection.scanDirectory(url)
+            DispatchQueue.main.async {
+                self?.fileURLs = updatedURLs
+            }
+        }
+        self.dispatchSource?.resume()
+    }
+
+    deinit {
+        self.dispatchSource?.setEventHandler(handler: nil)
+        if let handle = fileHandle {
+            close(handle)
+        }
     }
 
     // MARK: CollectionEventObservable
@@ -41,9 +71,19 @@ public final class DirectoryModelCollection: NestedModelCollection, ProxyingColl
 
     // MARK: Private
 
+    private let dispatchSource: DispatchSourceFileSystemObject?
+    private let fileHandle: Int32?
+
+    private static func scanDirectory(_ url: URL) -> [URL] {
+        return try! FileManager.default.contentsOfDirectory(
+            at: url,
+            includingPropertiesForKeys: nil,
+            options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants, .skipsPackageDescendants])
+    }
+
     private var fileURLs: [URL] {
         didSet {
-            state = .loaded(fileURLs.map({ File(url: $0) }))
+            state = .loaded(fileURLs.map(File.init(url:)))
         }
     }
 }

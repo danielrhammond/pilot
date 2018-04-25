@@ -9,7 +9,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         window.minSize = CGSize(width: 480, height: 360)
-        window.contentViewController = DirectoryOutlineViewController(
+        window.contentViewController = DirectoryViewController(
             url: FileManager.default.homeDirectoryForCurrentUser,
             context: rootContext)
 
