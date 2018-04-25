@@ -1,7 +1,6 @@
 import Pilot
 
-public final class DirectoryModelCollection: ModelCollection, ProxyingCollectionEventObservable {
-
+public final class DirectoryModelCollection: NestedModelCollection, ProxyingCollectionEventObservable {
     public init(url: URL) {
         self.collectionId = "DMC-\(url.path)"
         self.fileURLs = try! FileManager.default.contentsOfDirectory(
@@ -21,6 +20,23 @@ public final class DirectoryModelCollection: ModelCollection, ProxyingCollection
     public let collectionId: ModelCollectionId
     public var state: ModelCollectionState {
         didSet { observers.notify(.didChangeState(state)) }
+    }
+
+    // MARK: NestedModelCollection
+
+    public func isModelExpandable(_ model: Model) -> Bool {
+        let file: File = model.typedModel()
+        var isDir: ObjCBool = false
+        FileManager.default.fileExists(atPath: file.url.path, isDirectory: &isDir)
+        return isDir.boolValue
+    }
+
+    public func childModelCollection(_ model: Model) -> NestedModelCollection {
+        guard isModelExpandable(model) else {
+            return EmptyModelCollection().asNested()
+        }
+        let file: File = model.typedModel()
+        return DirectoryModelCollection(url: file.url)
     }
 
     // MARK: Private

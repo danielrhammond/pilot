@@ -11,7 +11,7 @@ open class OutlineViewController: ModelCollectionViewController {
     ) {
         let context = context.newScope()
         self.dataSource = OutlineViewModelDataSource(
-            model: model,
+            model: model.asNested(),
             modelBinder: modelBinder,
             viewBinder: viewBinder,
             context: context)
