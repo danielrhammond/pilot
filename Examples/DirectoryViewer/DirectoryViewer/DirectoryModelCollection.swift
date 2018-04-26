@@ -27,7 +27,11 @@ public final class DirectoryModelCollection: NestedModelCollection, ProxyingColl
         self.dispatchSource?.setEventHandler { [weak self] in
             let updatedURLs = DirectoryModelCollection.scanDirectory(url)
             DispatchQueue.main.async {
-                self?.fileURLs = updatedURLs
+                if let urls = self?.fileURLs, urls != updatedURLs  {
+                    self?.fileURLs = updatedURLs
+                } else if self?.fileURLs == nil {
+                    self?.fileURLs = updatedURLs
+                }
             }
         }
         self.dispatchSource?.resume()

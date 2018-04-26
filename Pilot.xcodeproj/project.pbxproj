@@ -154,6 +154,8 @@
 		A47FC6691D909DFB00529DA9 /* LayoutConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CACF591D6FCBFC003D572D /* LayoutConstraints.swift */; };
 		A47FD341208FF86B0045D6F7 /* NestedModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47FD340208FF86B0045D6F7 /* NestedModelCollection.swift */; };
 		A47FD342208FF86B0045D6F7 /* NestedModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47FD340208FF86B0045D6F7 /* NestedModelCollection.swift */; };
+		A47FD367209145710045D6F7 /* LazyNestedModelCollectionTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47FD3602091231F0045D6F7 /* LazyNestedModelCollectionTree.swift */; };
+		A47FD3682091458A0045D6F7 /* LazyNestedModelCollectionTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47FD363209123540045D6F7 /* LazyNestedModelCollectionTreeTests.swift */; };
 		A4897B631F95582100727514 /* ViewModelUserEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4897B621F95582100727514 /* ViewModelUserEvents.swift */; };
 		A4897B641F95582100727514 /* ViewModelUserEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4897B621F95582100727514 /* ViewModelUserEvents.swift */; };
 		A4AED3D51D402D73001F3524 /* MappedModelCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AED3D41D402D73001F3524 /* MappedModelCollection.swift */; };
@@ -313,6 +315,8 @@
 		A468F7FF1EC3B7AE009717A4 /* CompoundActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompoundActionTests.swift; sourceTree = "<group>"; };
 		A478F92A1D3850B5000B2ADB /* NestedModelCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NestedModelCollectionView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A47FD340208FF86B0045D6F7 /* NestedModelCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedModelCollection.swift; sourceTree = "<group>"; };
+		A47FD3602091231F0045D6F7 /* LazyNestedModelCollectionTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNestedModelCollectionTree.swift; sourceTree = "<group>"; };
+		A47FD363209123540045D6F7 /* LazyNestedModelCollectionTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNestedModelCollectionTreeTests.swift; sourceTree = "<group>"; };
 		A4897B621F95582100727514 /* ViewModelUserEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUserEvents.swift; sourceTree = "<group>"; };
 		A4AED3D41D402D73001F3524 /* MappedModelCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MappedModelCollection.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A4AED3D71D402EBB001F3524 /* MappedModelCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappedModelCollectionTests.swift; sourceTree = "<group>"; };
@@ -521,7 +525,6 @@
 		69048A4D1C470489000CE840 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				A4002D39208FA48400B95A90 /* OutlineViews */,
 				3C6C9E211F31254F00D13B52 /* Alerts */,
 				697D0FCC1D37006300310F81 /* AppKitExtensions */,
 				69048A9A1C470F08000CE840 /* CollectionViews */,
@@ -530,6 +533,7 @@
 				69FADB581D305440001F2E11 /* Info-iOS.plist */,
 				69FADB591D305440001F2E11 /* Info-macOS.plist */,
 				69F91DB91C4ED7A300B1EA1F /* Layout */,
+				A4002D39208FA48400B95A90 /* OutlineViews */,
 				69048A351C47045D000CE840 /* PilotUI.h */,
 				697D13331D4056CC00310F81 /* PlatformAliases.swift */,
 			);
@@ -613,6 +617,7 @@
 				A4AED3D41D402D73001F3524 /* MappedModelCollection.swift */,
 				69F89E761C52F06200F08E28 /* Model.swift */,
 				69F89E741C52F06200F08E28 /* ModelCollection.swift */,
+				A47FD340208FF86B0045D6F7 /* NestedModelCollection.swift */,
 				022120341DFB807C007C4039 /* ScoredModelCollection.swift */,
 				A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */,
 				69A8692C20339DF40076B36A /* SectionedModelCollection.swift */,
@@ -627,7 +632,6 @@
 				69F89E771C52F06200F08E28 /* ViewModel.swift */,
 				A42899701FA1393500EA4422 /* ViewModelBinding.swift */,
 				A4897B621F95582100727514 /* ViewModelUserEvents.swift */,
-				A47FD340208FF86B0045D6F7 /* NestedModelCollection.swift */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -706,6 +710,8 @@
 		A4002D3A208FA48C00B95A90 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				A47FD3602091231F0045D6F7 /* LazyNestedModelCollectionTree.swift */,
+				A47FD363209123540045D6F7 /* LazyNestedModelCollectionTreeTests.swift */,
 				A4002D3B208FA4A300B95A90 /* OutlineViewController.swift */,
 				A4002D3D208FA51500B95A90 /* OutlineViewModelDataSource.swift */,
 			);
@@ -1250,6 +1256,7 @@
 				697D10771D3D8FD300310F81 /* CollectionViewModelDataSource.swift in Sources */,
 				69FADC8A1D30B7FC001F2E11 /* CollectionHostedView.swift in Sources */,
 				690E1AA11E54C0E100B257CA /* NSMenu+Action.swift in Sources */,
+				A47FD367209145710045D6F7 /* LazyNestedModelCollectionTree.swift in Sources */,
 				697D0FCE1D37008D00310F81 /* NSEvent+Keys.swift in Sources */,
 				A4002D36208F933F00B95A90 /* ModelCollectionStateViewTypes.swift in Sources */,
 				690E1AA71E54CAA000B257CA /* Collection.swift in Sources */,
@@ -1269,6 +1276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A455A7E71E5F6C3900F63A37 /* PilotUI.swift in Sources */,
+				A47FD3682091458A0045D6F7 /* LazyNestedModelCollectionTreeTests.swift in Sources */,
 				9CA5FC521FB9A81A00F85B98 /* CollectionViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

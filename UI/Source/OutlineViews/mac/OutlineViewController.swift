@@ -52,5 +52,6 @@ open class OutlineViewController: ModelCollectionViewController {
         outlineView.delegate = dataSource
         outlineView.dataSource = dataSource
         scrollView.scrollerStyle = .overlay
+        dataSource.outlineView = outlineView
     }
 }
