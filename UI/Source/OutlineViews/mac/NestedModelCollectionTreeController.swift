@@ -10,6 +10,9 @@ import Pilot
 /// NOTE: NestedModelCollectionTreeController is considered == whenever the indexPath and ModelCollection ids are ==
 internal final class NestedModelCollectionTreeController: ProxyingObservable {
 
+    internal typealias Path = [ModelId]
+    internal typealias EncodedPath = String
+
     internal convenience init(modelCollection: NestedModelCollection) {
         self.init(modelCollection: modelCollection, modelId: nil, parent: nil)
     }
@@ -34,20 +37,42 @@ internal final class NestedModelCollectionTreeController: ProxyingObservable {
         }
     }
 
-    internal func isExpandable(_ path: IndexPath) -> Bool {
-        let model = modelAtIndexPath(path)
-        let containingNode = findOrCreateNode(path.dropLast())
+    internal func isExpandable(_ path: Path) -> Bool {
+        let model = modelAtPath(path)
+        let containingNode = findOrCreateNode(Array(path.dropLast()))
         return containingNode.modelCollection.canExpand(model)
     }
 
-    internal func countOfChildNodes(_ path: IndexPath) -> Int {
+    internal func countOfChildNodes(_ path: Path) -> Int {
         return findOrCreateNode(path).modelCollection.models.count
     }
 
-    internal func modelAtIndexPath(_ path: IndexPath) -> Model {
+    internal func modelAtPath(_ path: Path) -> Model {
         guard !path.isEmpty else { Log.fatal(message: "Empty path passed to modelAtIndexPath()") }
-        let containingNode = findOrCreateNode(path.dropLast())
-        return containingNode.modelCollection.models[path.last!]
+        let containingNode = findOrCreateNode(Array(path.dropLast()))
+        // dumb
+        return containingNode.modelCollection.models.first(where: { $0.modelId == path.last })!
+    }
+
+    internal func path(_ path: IndexPath) -> Path {
+        var path = path
+        var result = Path()
+        var node = self
+        while !path.isEmpty {
+            let nextIndex = path.removeFirst()
+            let nextModelId = node.modelCollection.models[nextIndex].modelId
+            result.append(nextModelId)
+            node = node.findOrCreateNode([nextModelId])
+        }
+        return result
+    }
+
+//    internal func itemAtIndexPath(_ path: IndexPath) -> Any? {
+//
+//    }
+
+    internal func modelId(path: Path, child index: Int) -> ModelId {
+        return findOrCreateNode(path).modelCollection.models[index].modelId
     }
 
     internal var indexPath: IndexPath {
@@ -59,6 +84,15 @@ internal final class NestedModelCollectionTreeController: ProxyingObservable {
         }
         return parent.indexPath.appending(index)
     }
+
+//    internal var path: Path {
+//        let parentPath = (parent?.path ?? [])
+//        if let modelId = modelId {
+//            return parentPath + [modelId]
+//        } else {
+//            return parentPath
+//        }
+//    }
 
     internal weak var parent: NestedModelCollectionTreeController? = nil
 
@@ -106,19 +140,21 @@ internal final class NestedModelCollectionTreeController: ProxyingObservable {
         observers.notify(event)
     }
 
-    private func findOrCreateNode(_ path: IndexPath) -> NestedModelCollectionTreeController {
+    private func findOrCreateNode(_ path: Path) -> NestedModelCollectionTreeController {
         guard !path.isEmpty else { return self }
-        let model = modelCollection.models[path[0]]
-        if let cached = childrenCache[model.modelId] {
-            return cached.findOrCreateNode(path.dropFirst())
+        let modelId = path[0]
+        if let cached = childrenCache[modelId] {
+            return cached.findOrCreateNode(Array(path.dropFirst()))
         } else {
+            // dumb
+            let model = modelCollection.models.first(where: { $0.modelId == modelId })!
             let childModelCollection = modelCollection.childModelCollection(for: model)
             let node = NestedModelCollectionTreeController(
                 modelCollection: childModelCollection,
-                modelId: model.modelId,
+                modelId: modelId,
                 parent: self)
-            childrenCache[model.modelId] = node
-            return node.findOrCreateNode(path.dropFirst())
+            childrenCache[modelId] = node
+            return node.findOrCreateNode(Array(path.dropFirst()))
         }
     }
 }

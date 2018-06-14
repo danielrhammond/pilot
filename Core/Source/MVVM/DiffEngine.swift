@@ -99,7 +99,7 @@ private struct ModelState {
 private func logState(_ prefix: String, _ state: [[ModelState]]) {
     Swift.print(prefix)
     for section in state {
-        let entries = section.map { "\($0.id) - \($0.version)" }.joined(separator: ", ")
+        let entries = section.map { "\($0.id) - \($0.version)" }.joined(separator: "_-_")
         Swift.print("  [ \(entries) ]")
     }
 }

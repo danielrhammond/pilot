@@ -43,7 +43,7 @@ class LazyNestedModelCollectionTreeTests: XCTestCase {
         let subject = NestedModelCollectionTreeController(modelCollection: parentMC)
         let spy = TestObserver(subject)
         _ = subject.modelAtIndexPath([0, 1, 0])
-        childMC.state = .loaded([TestM("A.2.a", version: ModelVersion(UInt64(2)))])
+        childMC.state = .loaded([TestM("A.2.a", version: 2)])
         assertEqual(spy.events.first?.updated, [[0, 1, 0]])
     }
 
@@ -68,6 +68,23 @@ class LazyNestedModelCollectionTreeTests: XCTestCase {
         grandchildMC.state = .loaded([TestM("A.2.a"), TestM("A.2.b")])
         XCTAssertEqual(spy.events.count, 2)
         assertEqual(spy.events.last?.added, [[0,0,1]])
+    }
+
+    func testMoveToSublevel() {
+        let grandchildMC: TestMC = [("A.3.1", nil)]
+        let childMC: TestMC = [("A.1", nil), ("A.2", nil), ("A.3", grandchildMC)]
+        let parentMC: TestMC = [("A", childMC)]
+        let subject = NestedModelCollectionTreeController(modelCollection: parentMC)
+        _ = subject.modelAtIndexPath([0, 0])
+        // Move A.2 to be child of A.3
+        grandchildMC.state = .loaded([TestM("A.3.1"), TestM("A.2")])
+        childMC.state = .loaded([TestM("A.1"), TestM("A.3")])
+        _ = subject.modelAtIndexPath([0, 1, 0])
+//        let newChildMC: TestMC = [("A.2", nil), ("A.3", newGrandchildMC)]
+//        childMC.state = newChildMC.state
+//        childMC.canExpand = { return $0.modelId == "A.3" }
+//        childMC.expand = { _ in return newGrandchildMC }
+//        XCTAssertEqual(subject.modelAtIndexPath([0, 1, 0]).modelId, "A.3.1")
     }
 
     func testIgnoresUpdatesAfterDelete() {
