@@ -62,6 +62,23 @@ public enum CollectionEvent {
 public typealias CollectionEventObserver = (CollectionEvent) -> Void
 public typealias CollectionEventObserverToken = Token
 
+
+#if canImport(RxSwift)
+
+import RxSwift
+
+public protocol ProxyingCollectionEventObservable: ObservableType where E == CollectionEvent {
+    var proxiedObservable: Observable<CollectionEvent> { get }
+}
+
+extension ProxyingCollectionEventObservable {
+    public func subscribe<O>(_ observer: O) -> Disposable where O : ObserverType, Self.E == O.E {
+        return proxiedObservable.subscribe(observer)
+    }
+}
+
+#else
+
 /// ProxyingCollectionEventObservable is the easiest way to implement the CollectionEventObservable protocol.
 /// See the documentation for `ProxyingObservable` - it has the same API.
 ///
@@ -71,19 +88,18 @@ public typealias CollectionEventObserverToken = Token
 /// public var proxiedObservable: GenericObservable<CollectionEvent> { return observers }
 /// private let observers = ObserverList<CollectionEvent>()
 /// ```
-public protocol ProxyingCollectionEventObservable {
+public protocol ProxyingCollectionEventObservable: ObservableType where Event == CollectionEvent {
     var proxiedObservable: Observable<CollectionEvent> { get }
 }
 
 /// The default CollectionEventObservable implementations.
 extension ProxyingCollectionEventObservable {
-    public func addObserver(_ observer: @escaping (CollectionEvent) -> Void) -> ObserverToken {
-        return proxiedObservable.addObserver(observer)
-    }
-    public func removeObserver(with token: ObserverToken) {
-        return proxiedObservable.removeObserver(with: token)
+    public func observeValues(_ observer: @escaping (CollectionEvent) -> Void) -> Subscription {
+        return proxiedObservable.observeValues(observer)
     }
 }
+
+#endif
 
 /// IndexPath is too expensive (given it contains an NSArray) for what really is just two indices, so we pass these simple ModelPath pairs
 /// around.  `sectionIndex` is the index of the section and `itemIndex` is the index of the model in the corresponding section.
@@ -179,27 +195,17 @@ public struct BlockModelProvider: IndexedModelProvider {
 /// PilotUI framework.
 public protocol ModelCollection: class {
 
+    var collectionId: ModelCollectionId { get }
+
     // MARK: ObservableType
 
-    func addObserver(_ observer: @escaping  CollectionEventObserver) -> CollectionEventObserverToken
-    func removeObserver(with token: CollectionEventObserverToken)
-
-    var collectionId: ModelCollectionId { get }
+    func observeValues(_ observer: @escaping (CollectionEvent) -> Void) -> Subscription
 
     // MARK: State
 
     /// Current state of the model collection. Typically used by reference-type implementations, as value-type
     /// implementations stay `.Loaded`.
     var state: ModelCollectionState { get }
-}
-
-public extension ModelCollection {
-    public func observe(_ handler: @escaping (CollectionEvent) -> Void) -> Observer {
-        let token = addObserver(handler)
-        return Observer { [weak self] in
-            self?.removeObserver(with: token)
-        }
-    }
 }
 
 // MARK: Common helper methods.

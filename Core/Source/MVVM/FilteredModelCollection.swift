@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(RxSwift)
+import RxSwift
+#endif
 
 /// Filter closure - returns `true` to include the element, and `false` to exclude (same as `Array.filter`).
 public typealias ModelFilter = (Model) -> Bool
@@ -36,7 +39,7 @@ public final class FilteredModelCollection: ModelCollection, ProxyingCollectionE
         self.sourceCollection = sourceCollection
         self.kind = kind
 
-        sourceObserver = self.sourceCollection.observe { [weak self] event in
+        sourceObserver = self.sourceCollection.observeValues { [weak self] event in
             self?.handleSourceEvent(event)
         }
 
@@ -97,7 +100,7 @@ public final class FilteredModelCollection: ModelCollection, ProxyingCollectionE
 
     private let kind: FilterKind
     private let sourceCollection: ModelCollection
-    private var sourceObserver: Observer?
+    private var sourceObserver: Subscription?
 
     private func handleSourceEvent(_ event: CollectionEvent) {
         discardPendingFilterWork()

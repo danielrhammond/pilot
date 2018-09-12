@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(RxSwift)
+import RxSwift
+#endif
 
 /// A ModelCollection whose backing collection can be swapped out at runtime.
 public final class SwitchableModelCollection: SectionedModelCollection, ProxyingCollectionEventObservable {
@@ -8,7 +11,7 @@ public final class SwitchableModelCollection: SectionedModelCollection, Proxying
     public init(collectionId: ModelCollectionId, modelCollection: ModelCollection) {
         self.currentCollection = modelCollection
         self.collectionId = collectionId
-        self.modelObserver = modelCollection.observe { [weak self] event in
+        self.modelObserver = modelCollection.observeValues { [weak self] event in
             self?.observers.notify(event)
         }
     }
@@ -28,7 +31,7 @@ public final class SwitchableModelCollection: SectionedModelCollection, Proxying
 
     public func switchTo(_ modelCollection: ModelCollection) {
         self.currentCollection = modelCollection
-        self.modelObserver = modelCollection.observe { [weak self] (event) in
+        self.modelObserver = modelCollection.observeValues { [weak self] (event) in
             self?.observers.notify(event)
         }
         observers.notify(.didChangeState(state))
@@ -60,5 +63,5 @@ public final class SwitchableModelCollection: SectionedModelCollection, Proxying
 
     // MARK: Private
 
-    private var modelObserver: Observer?
+    private var modelObserver: Subscription?
 }

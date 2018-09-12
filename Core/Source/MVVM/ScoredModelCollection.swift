@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(RxSwift)
+import RxSwift
+#endif
 
 /// Scoring closure - returns a score for each model.  If no score, model is filtered out of collection. Otherwise the collection is sorted with higher scores at the top.
 public typealias ModelScorer = (Model) -> Double?
@@ -12,7 +15,7 @@ public final class ScoredModelCollection: ModelCollection, ProxyingCollectionEve
         self.sourceCollection = sourceCollection
         self.scorer = { _ in 0 }
 
-        sourceObserver = self.sourceCollection.observe { [weak self] event in
+        sourceObserver = self.sourceCollection.observeValues { [weak self] event in
             self?.handleSourceEvent(event)
         }
 
@@ -55,7 +58,7 @@ public final class ScoredModelCollection: ModelCollection, ProxyingCollectionEve
     // MARK: Private
 
     private let sourceCollection: ModelCollection
-    private var sourceObserver: Observer?
+    private var sourceObserver: Subscription?
 
     private func handleSourceEvent(_ event: CollectionEvent) {
         updateModels()

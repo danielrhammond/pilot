@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(RxSwift)
+import RxSwift
+#endif
 
 /// Transform closure that is performed on each model item.
 public typealias ModelTransform = (Model) -> Model
@@ -11,7 +14,7 @@ public final class MappedModelCollection: ModelCollection, ProxyingCollectionEve
     public init(sourceCollection: ModelCollection) {
         self.sourceCollection = sourceCollection
 
-        sourceObserver = self.sourceCollection.observe { [weak self] event in
+        sourceObserver = self.sourceCollection.observeValues { [weak self] event in
             self?.handleSourceEvent(event)
         }
 
@@ -52,8 +55,10 @@ public final class MappedModelCollection: ModelCollection, ProxyingCollectionEve
 
     // MARK: Private
 
+
+
     private let sourceCollection: ModelCollection
-    private var sourceObserver: Observer?
+    private var sourceObserver: Subscription?
 
     internal func handleSourceEvent(_ event: CollectionEvent) {
         discardPendingMapWork()
