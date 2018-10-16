@@ -33,8 +33,6 @@ private enum CollectionViewState {
     case synced
 }
 
-
-
 /// Data source for collection views which handles all the necessary binding between models -> view models, and view
 /// models -> view types. It handles observing the underlying model and handling all required updates to the collection
 /// view.
@@ -511,6 +509,23 @@ public final class CurrentCollection: ObservableType {
                 if let typed = section.models[indexPath.item] as? T {
                     return typed
                 }
+            }
+        }
+        return nil
+    }
+
+    /// Returns the index path for the given model id, if present.
+    /// - Complexity: O(n)
+    public func indexPath(forModelId modelId: ModelId) -> IndexPath? {
+        return indexPathOf() { $0.modelId == modelId }
+    }
+
+    /// Returns the index path for first item matching the provided closure
+    /// - Complexity: O(n)
+    public func indexPathOf(matching: (Model) -> Bool) -> IndexPath? {
+        for (sectionIdx, section) in self.sectionedState.enumerated() {
+            if let itemIdx = section.models.index(where: matching) {
+                return IndexPath(forModelItem: itemIdx, inSection: sectionIdx)
             }
         }
         return nil
