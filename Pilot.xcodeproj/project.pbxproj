@@ -102,6 +102,12 @@
 		A428996F1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */; };
 		A42899711FA1393500EA4422 /* ViewModelBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42899701FA1393500EA4422 /* ViewModelBinding.swift */; };
 		A42899721FA1393500EA4422 /* ViewModelBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42899701FA1393500EA4422 /* ViewModelBinding.swift */; };
+		A43511C52176BA3000C8EA6D /* ModelCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511C42176BA3000C8EA6D /* ModelCollectionState.swift */; };
+		A43511C62176BA3000C8EA6D /* ModelCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511C42176BA3000C8EA6D /* ModelCollectionState.swift */; };
+		A43511D72176BA5B00C8EA6D /* ModelPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511D62176BA5B00C8EA6D /* ModelPath.swift */; };
+		A43511D82176BA5B00C8EA6D /* ModelPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511D62176BA5B00C8EA6D /* ModelPath.swift */; };
+		A43511DA2176BB3E00C8EA6D /* ModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511D92176BB3E00C8EA6D /* ModelProvider.swift */; };
+		A43511DB2176BB3E00C8EA6D /* ModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43511D92176BB3E00C8EA6D /* ModelProvider.swift */; };
 		A437EDA81E56507600F67B37 /* SimpleModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* SimpleModelCollectionTests.swift */; };
 		A437EDA91E56507600F67B37 /* SimpleModelCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A437EDA71E56507600F67B37 /* SimpleModelCollectionTests.swift */; };
 		A437EDB51E567AE800F67B37 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6974F89B1C504BD50029ED48 /* Async.swift */; };
@@ -446,6 +452,9 @@
 		A4002D3D208FA51500B95A90 /* OutlineViewModelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewModelDataSource.swift; sourceTree = "<group>"; };
 		A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryActionInfo.swift; sourceTree = "<group>"; };
 		A42899701FA1393500EA4422 /* ViewModelBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBinding.swift; sourceTree = "<group>"; };
+		A43511C42176BA3000C8EA6D /* ModelCollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCollectionState.swift; sourceTree = "<group>"; };
+		A43511D62176BA5B00C8EA6D /* ModelPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelPath.swift; sourceTree = "<group>"; };
+		A43511D92176BB3E00C8EA6D /* ModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProvider.swift; sourceTree = "<group>"; };
 		A437EDA71E56507600F67B37 /* SimpleModelCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleModelCollectionTests.swift; sourceTree = "<group>"; };
 		A455A7E51E5F6C3900F63A37 /* PilotUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PilotUI.swift; sourceTree = "<group>"; };
 		A460CC821E56195F00F9AC6F /* Downcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downcast.swift; sourceTree = "<group>"; };
@@ -734,7 +743,10 @@
 				69F89E751C52F06200F08E28 /* Context.swift */,
 				022862571DB0070100FCD03F /* DiffEngine.swift */,
 				69F89E761C52F06200F08E28 /* Model.swift */,
+				A43511D62176BA5B00C8EA6D /* ModelPath.swift */,
+				A43511D92176BB3E00C8EA6D /* ModelProvider.swift */,
 				69F89E741C52F06200F08E28 /* ModelCollection.swift */,
+				A43511C42176BA3000C8EA6D /* ModelCollectionState.swift */,
 				A47D617B216E6DBA00BEFB8F /* SimpleModelCollection.swift */,
 				A428996D1FA137F300EA4422 /* SecondaryActionInfo.swift */,
 				698F3F7E1CE543DB00076B8C /* StaticModel.swift */,
@@ -1400,9 +1412,11 @@
 				0253F33D1D91FD1600B718CF /* SpookyV2.cpp in Sources */,
 				D560D44D1D1211A4000DA826 /* Logger.swift in Sources */,
 				69F89E7A1C52F06200F08E28 /* Context.swift in Sources */,
+				A43511C62176BA3000C8EA6D /* ModelCollectionState.swift in Sources */,
 				D560D4621D136E11000DA826 /* FileLogger.swift in Sources */,
 				655664B81EC90529005DB413 /* (null) in Sources */,
 				69F89E7B1C52F06200F08E28 /* Model.swift in Sources */,
+				A43511DB2176BB3E00C8EA6D /* ModelProvider.swift in Sources */,
 				A428996F1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */,
 				6988476B1CE6459B0075D205 /* StaticViewBindingProvider.swift in Sources */,
 				690E1AAA1E54CDB600B257CA /* Token.swift in Sources */,
@@ -1419,6 +1433,7 @@
 				D560D4611D136E11000DA826 /* ConsoleLogger.swift in Sources */,
 				022862591DB0070500FCD03F /* DiffEngine.swift in Sources */,
 				69F89E7D1C52F06200F08E28 /* View.swift in Sources */,
+				A43511D82176BA5B00C8EA6D /* ModelPath.swift in Sources */,
 				A47D617D216E6DBA00BEFB8F /* SimpleModelCollection.swift in Sources */,
 				69F89E7C1C52F06200F08E28 /* ViewModel.swift in Sources */,
 				021321471D91F13700CDF026 /* Hash.cpp in Sources */,
@@ -1490,9 +1505,11 @@
 				021321461D91F13700CDF026 /* Hash.cpp in Sources */,
 				696534A91D1710D400DF97CB /* ViewLayout.swift in Sources */,
 				6965349E1D1710C900DF97CB /* FileLogger.swift in Sources */,
+				A43511C52176BA3000C8EA6D /* ModelCollectionState.swift in Sources */,
 				696534A71D1710D400DF97CB /* StaticModel.swift in Sources */,
 				655664B71EC90074005DB413 /* (null) in Sources */,
 				696534A81D1710D400DF97CB /* StaticViewBindingProvider.swift in Sources */,
+				A43511DA2176BB3E00C8EA6D /* ModelProvider.swift in Sources */,
 				6965349F1D1710CB00DF97CB /* Logger.swift in Sources */,
 				A428996E1FA137F300EA4422 /* SecondaryActionInfo.swift in Sources */,
 				690E1AA91E54CDB600B257CA /* Token.swift in Sources */,
@@ -1509,6 +1526,7 @@
 				696534A41D1710D400DF97CB /* Context.swift in Sources */,
 				6965349D1D1710C600DF97CB /* ConsoleLogger.swift in Sources */,
 				696534A31D1710D400DF97CB /* ModelCollection.swift in Sources */,
+				A43511D72176BA5B00C8EA6D /* ModelPath.swift in Sources */,
 				A47D617C216E6DBA00BEFB8F /* SimpleModelCollection.swift in Sources */,
 				696534A51D1710D400DF97CB /* Model.swift in Sources */,
 				696534AA1D1710D400DF97CB /* ViewModel.swift in Sources */,
