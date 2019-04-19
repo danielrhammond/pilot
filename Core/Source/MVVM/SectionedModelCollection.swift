@@ -1,27 +1,16 @@
 import Foundation
+import RxSwift
 
 /// Specialization of a `ModelCollection` that provides support for sections — typically used when mapping to
 /// table and collection views, which support sections.
-public protocol SectionedModelCollection: ModelCollection {
-    /// An array of `ModelCollectionState` where each item represents a section. This is a higher-fidelity view of
-    /// `ModelCollection.state` that divides the same set of `Model` objects into sections that each support their own
-    /// state.
-    ///
-    /// Implementations would likely use `sectionedState.flattenedState()` for an implementation of
-    /// `ModelCollection.state`, as it provides a reasonable default mapping from multiple section states to a single
-    /// state representing the entire collection.
-    var sectionedState: [ModelCollectionState] { get }
-}
+public typealias SectionedModelCollection = Observable<[ModelCollectionState]>
 
-extension ModelCollection {
+extension ObservableType where E == ModelCollectionState {
 
     /// If the target type is already a `SectionedModelCollection`, this method does nothing except downcast. Otherwise,
     /// returns a `SectionedModelCollection` with the target `ModelCollection` as the only section.
     public func asSectioned() -> SectionedModelCollection {
-        if let sectioned = self as? SectionedModelCollection {
-            return sectioned
-        }
-        return SingleSectionedModelCollection(self)
+        return map { [$0] }
     }
 }
 
@@ -80,7 +69,8 @@ extension Sequence where Iterator.Element == [Model] {
     }
 }
 
-extension SectionedModelCollection {
+/*
+extension Collection where Iterator.Element == Model {
 
     /// Returns sections of `Model` items.
     public var sections: [[Model]] {
@@ -132,36 +122,7 @@ extension SectionedModelCollection {
         return nil
     }
 }
-
-/// Internal only class used for wrapping a non-sectioned `ModelCollection` with `SectionedModelCollection` support.
-internal final class SingleSectionedModelCollection: SectionedModelCollection {
-    internal init(_ modelCollection: ModelCollection) {
-        self.represented = modelCollection
-    }
-
-    // MARK: SectionedModelCollection
-
-    internal var sectionedState: [ModelCollectionState] {
-        return [represented.state]
-    }
-
-    // MARK: ModelCollection
-
-    internal func addObserver(_ observer: @escaping  CollectionEventObserver) -> CollectionEventObserverToken {
-        return represented.addObserver(observer)
-    }
-
-    internal func removeObserver(with token: CollectionEventObserverToken) {
-        represented.removeObserver(with: token)
-    }
-
-    internal var collectionId: ModelCollectionId { return represented.collectionId }
-    internal var state: ModelCollectionState { return represented.state }
-
-    // MARK: Private
-
-    private let represented: ModelCollection
-}
+*/
 
 /// Helper struct for flattening `SectionedModelCollection` state.
 private struct ModelCollectionStateReduction {

@@ -4,6 +4,8 @@ import QuartzCore
 // NOTE: This file defines the abstract concept of a view. But because it is in Pilot, there is no actual dependency
 // on any platform-specific view implementation. i.e. Do not import UIKit or AppKit here.
 
+public protocol ContainerView: class {}
+
 /// Protocol defining an application-defined view object which binds and displays the data from a `ViewModel`
 /// (typically a `UIView` or `NSView`), however `UIViewController` or `NSViewController` is also supported.
 ///

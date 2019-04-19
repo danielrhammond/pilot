@@ -1,5 +1,6 @@
 import Pilot
 import UIKit
+import RxSwift
 
 /// Struct representing what to display when the collection view is empty.
 public enum EmptyCollectionDisplay {
@@ -16,7 +17,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
     // MARK: Init
 
     public init(
-        model: ModelCollection,
+        model: Observable<ModelCollectionState>,
         modelBinder: ViewModelBindingProvider,
         viewBinder: ViewBindingProvider,
         layout: UICollectionViewLayout,
@@ -59,6 +60,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
 
     // MARK: Public
 
+    /*
     /// Read-only access to the model collection representing the data as far as the CollectionView
     /// has been told. If the current code path is initiated by the CollectionView and uses an IndexPath,
     /// this is the collection that should be used.
@@ -66,6 +68,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
     public var collection: ModelCollection {
         return dataSource.currentCollection
     }
+    */
 
     /// Read-only access to the underlying context.
     public var context: Context {
@@ -217,23 +220,26 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
 
     // MARK: Private
 
-    private var collectionObserver: Observer?
+    private var collectionObserver: Disposable?
 
     private func registerForModelEvents() {
         assertWithLog(collectionObserver == nil, message: "Expected to start with a nil token")
 
+        /*
         collectionObserver = collection.observe { [weak self] event in
             self?.handleModelEvent(event)
         }
 
         // Upon registering, fire an initial state change to match existing state.
         handleModelEvent(.didChangeState(collection.state))
+        */
     }
 
     private func unregisterForModelEvents() {
         collectionObserver = nil
     }
 
+    /*
     private func handleModelEvent(_ event: CollectionEvent) {
         hideEmptyContentView()
 
@@ -257,6 +263,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
             }
         }
     }
+    */
 
     /// Spinner to show when in the `Loading` state.
     private var spinner: UIActivityIndicatorView?
@@ -266,6 +273,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
 
     private func showEmptyContentView() {
         guard self.emptyContentView == nil else { return }
+        /*
 
         let display: EmptyCollectionDisplay
         if case .error(let error) = collection.state {
@@ -282,6 +290,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
             emptyContentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             emptyContentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         }
+        */
     }
 
     private func hideEmptyContentView() {
@@ -290,6 +299,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
     }
 
     private func updateEmptyContentViewVisibility() {
+        /*
         switch collection.state {
         case .error(_), .loaded:
             if collection.state.isEmpty {
@@ -300,6 +310,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
         case .notLoaded, .loading:
             hideEmptyContentView()
         }
+        */
     }
 
     private func emptyContentViewForDisplay(_ display: EmptyCollectionDisplay) -> UIView? {

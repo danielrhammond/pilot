@@ -6,6 +6,7 @@ import AppKit
 
 import Pilot
 import QuartzCore
+import RxSwift
 
 /// Can be used to provide reuse ids for collection view cells.
 public protocol CollectionViewCellReuseIdProvider {
@@ -39,7 +40,7 @@ private enum CollectionViewState {
     case synced
 }
 
-public final class CurrentCollection: SectionedModelCollection, ProxyingCollectionEventObservable {
+public final class CurrentCollection {
 
     // MARK: Init
 
@@ -56,20 +57,27 @@ public final class CurrentCollection: SectionedModelCollection, ProxyingCollecti
         return sectionedState.flattenedState()
     }
 
-    public var proxiedObservable: Observable<CollectionEvent> { return observers }
-    private let observers = ObserverList<CollectionEvent>()
+    private let subject = PublishSubject<[ModelCollectionState]>()
 
     // MARK: SectionedModelCollection
 
     public private(set) var sectionedState: [ModelCollectionState] = []  {
         didSet {
-            observers.notify(.didChangeState(state))
+            subject.onNext(sectionedState)
         }
+    }
+
+    func atIndexPath<T>(_ indexPath: IndexPath) -> T? {
+        guard !sectionedState.isEmpty, indexPath.section < sectionedState.endIndex else { return nil }
+        let section = sectionedState[indexPath.section].models
+        guard !section.isEmpty, indexPath.item < section.endIndex else { return nil }
+        return section[indexPath.item] as? T
     }
 
     // MARK: Private
 
-    fileprivate func beginUpdate(_ collection: ModelCollection) -> (CollectionEventUpdates, () -> Void){
+    /*
+    fileprivate func beginUpdate(_ collection: ModelCollection) -> (CollectionEventUpdates, () -> Void) {
         // If the collection is already sectioned, this will honor those sections. Otherwise, it will
         // provide a single section wrapping the original collection.
         let sectionedCollection = collection.asSectioned()
@@ -80,9 +88,13 @@ public final class CurrentCollection: SectionedModelCollection, ProxyingCollecti
         })
     }
 
-    fileprivate func update(_ collection: ModelCollection) {
+    */
+
+    fileprivate func update(_ collection: Observable<ModelCollectionState>) {
+        /*
         let (_, commitCollectionChanges) = beginUpdate(collection)
         commitCollectionChanges()
+        */
     }
 
     private var diffEngine = DiffEngine()
@@ -91,12 +103,12 @@ public final class CurrentCollection: SectionedModelCollection, ProxyingCollecti
 /// Data source for collection views which handles all the necessary binding between models -> view models, and view
 /// models -> view types. It handles observing the underlying model and handling all required updates to the collection
 /// view.
-public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
+public class CollectionViewModelDataSource: NSObject {
 
     // MARK: Init
 
     public init(
-        model: ModelCollection,
+        model: Observable<ModelCollectionState>,
         modelBinder: ViewModelBindingProvider,
         viewBinder: ViewBindingProvider,
         context: Context,
@@ -113,9 +125,9 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
 
         super.init()
 
-        self.collectionObserver = self.underlyingCollection.observe { [weak self] event in
+        self.collectionObserver = self.underlyingCollection.subscribe(onNext: { [weak self] event in
             self?.handleCollectionEvent(event)
-        }
+        })
 
         registerForNotifications()
     }
@@ -327,8 +339,7 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
 
     // MARK: ObservableType
 
-    public var proxiedObservable: Observable<Event> { return observers }
-    private let observers = ObserverList<Event>()
+    private let subject = PublishSubject<CollectionViewModelDataSource.Event>()
 
     // MARK: Private
 
@@ -337,10 +348,10 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
 
     /// The collection whose contents are synchronized to this CollectionView.
     /// The underlyingCollection's data may be newer than the CollectionView's understanding of the world.
-    private let underlyingCollection: ModelCollection
+    private let underlyingCollection: Observable<ModelCollectionState>
     private var collectionViewState: CollectionViewState
 
-    private var collectionObserver: Observer?
+    private var collectionObserver: Disposable?
 
     /// Cache of view models and sizing information.
     private var viewModelCache: [ModelId: CachedViewModel] = [:]
@@ -442,7 +453,7 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
         return cachedViewModel
     }
 
-    private func handleCollectionEvent(_ event: CollectionEvent) {
+    private func handleCollectionEvent(_ modelState: ModelCollectionState) {
         switch collectionViewState {
         case .loading:
             // The collection changed, but the CollectionView hasn't asked for any information yet, so there's nothing to do.
@@ -462,6 +473,7 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
     private func applyCurrentDataToCollectionView() {
         precondition(collectionViewState == .synced)
 
+        /*
         let (updates, commitCollectionChanges) = currentCollection.beginUpdate(underlyingCollection)
         guard updates.hasUpdates else {
             // Still synced - no need to fire a collection view update pass.
@@ -485,6 +497,7 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
         handleUpdateItems(updates) { [weak self] in
             self?.observers.notify(.didUpdateItems(updates))
         }
+        */
     }
 
 
@@ -497,6 +510,8 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
     /// typically in `handleUpdateItems(...)` as it assumes the updates are already reflected in the current collection.
     /// Returns the invalidated view models.
     private func invalidateViewModelCache(for updates: CollectionEventUpdates) -> [ModelId: CachedViewModel] {
+        /*
+
         // Removals.
         for invalidatedModelId in updates.removedModelIds {
             viewModelCache[invalidatedModelId] = nil
@@ -522,6 +537,8 @@ public class CollectionViewModelDataSource: NSObject, ProxyingObservable {
             }
         }
         return invalidatedViewModelCache
+        */
+        return [:]
     }
 }
 
@@ -598,7 +615,7 @@ extension CollectionViewModelDataSource: UICollectionViewDataSource {
         guard !fullReloadFallback else {
             // On iOS `reloadData` doesn't always dequeue new cells, so remove and add all sections here.
             let oldSectionCount = collectionViewSectionCount
-            let newSectionCount = currentCollection.sections.count
+            let newSectionCount = currentCollection.sectionedState.count
 
             collectionViewState = .animating
             collectionView.performBatchUpdates({
@@ -649,7 +666,7 @@ extension CollectionViewModelDataSource: UICollectionViewDataSource {
                 var newCachedViewModel: CachedViewModel?
 
                 // Create new view models from the updated models.
-                if let model: Model = currentCollection.atModelPath(indexPath) {
+                if let model: Model = currentCollection.atIndexPath(indexPath.indexPath) {
                     oldCachedViewModel = invalidatedViewModelCache[model.modelId]
 
                     _ = cachedViewModel(for: model)
@@ -700,13 +717,13 @@ extension CollectionViewModelDataSource: UICollectionViewDataSource {
         default:
             break
         }
-        return currentCollection.sections.count
+        return currentCollection.sectionedState.count
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         precondition(collectionViewState != .loading)
-        if currentCollection.sections.indices.contains(section) {
-            return currentCollection.sections[section].count
+        if currentCollection.sectionedState.indices.contains(section) {
+            return currentCollection.sectionedState[section].models.count
         }
         return 0
     }
@@ -717,7 +734,7 @@ extension CollectionViewModelDataSource: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         precondition(collectionViewState != .loading)
         // Fetch the model item and view model.
-        let modelItem = currentCollection.sections[indexPath.section][indexPath.item]
+        let modelItem = currentCollection.sectionedState[indexPath.section].models[indexPath.item]
         var cachedViewModel = self.cachedViewModel(for: modelItem)
         let viewModel = cachedViewModel.viewModel
 
