@@ -20,7 +20,7 @@ public final class CollectionViewBinder<M, VM, V: HostableView> {
         viewModelBinder: @escaping (M) -> VM,
         viewCreator: @escaping (VM) -> V,
         viewBinder: @escaping (VM, V) -> Disposable
-    ) {
+        ) {
         self.models = models
         self.dataSource = CollectionViewDataSource(
             viewModelBinder: viewModelBinder,
@@ -48,7 +48,7 @@ public final class CollectionViewBinder<M, VM, V: HostableView> {
             viewModelBinder: @escaping (M) -> VM,
             viewCreator: @escaping (VM) -> V,
             viewBinder: @escaping (VM, V) -> Disposable
-        ) {
+            ) {
             self.viewModelBinder = viewModelBinder
             self.viewCreator = viewCreator
             self.viewBinder = viewBinder

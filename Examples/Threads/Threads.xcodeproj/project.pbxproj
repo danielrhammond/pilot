@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A40D03F0227C2BB800CC0770 /* ListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40D03EF227C2BB800CC0770 /* ListLayout.swift */; };
-		A40D03F3227C334100CC0770 /* CollectionViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40D03F2227C334100CC0770 /* CollectionViewBinder.swift */; };
 		A40D03F5227C9AB400CC0770 /* ThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40D03F4227C9AB400CC0770 /* ThreadViewController.swift */; };
 		A40DFFEA227C20A800CC0770 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40DFFE9227C20A800CC0770 /* CommentView.swift */; };
 		A40DFFF2227C20F900CC0770 /* With.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40DFFF1227C20F900CC0770 /* With.swift */; };
@@ -126,7 +125,6 @@
 
 /* Begin PBXFileReference section */
 		A40D03EF227C2BB800CC0770 /* ListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLayout.swift; sourceTree = "<group>"; };
-		A40D03F2227C334100CC0770 /* CollectionViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewBinder.swift; sourceTree = "<group>"; };
 		A40D03F4227C9AB400CC0770 /* ThreadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewController.swift; sourceTree = "<group>"; };
 		A40DFFE9227C20A800CC0770 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		A40DFFF1227C20F900CC0770 /* With.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = With.swift; sourceTree = "<group>"; };
@@ -167,14 +165,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A40D03F1227C332E00CC0770 /* Pilot WIP */ = {
-			isa = PBXGroup;
-			children = (
-				A40D03F2227C334100CC0770 /* CollectionViewBinder.swift */,
-			);
-			path = "Pilot WIP";
-			sourceTree = "<group>";
-		};
 		A450ED54227BFF6F00D39954 = {
 			isa = PBXGroup;
 			children = (
@@ -196,7 +186,6 @@
 		A450ED5F227BFF6F00D39954 /* Threads */ = {
 			isa = PBXGroup;
 			children = (
-				A40D03F1227C332E00CC0770 /* Pilot WIP */,
 				A450EDF7227C186600D39954 /* Util */,
 				A450EDEC227C099600D39954 /* Presentation */,
 				A450EDEB227C096300D39954 /* Business Logic */,
@@ -446,7 +435,6 @@
 				A40D03F5227C9AB400CC0770 /* ThreadViewController.swift in Sources */,
 				A450EDEE227C15D300D39954 /* ThreadRepository.swift in Sources */,
 				A450EDF0227C166C00D39954 /* ThreadInteractor.swift in Sources */,
-				A40D03F3227C334100CC0770 /* CollectionViewBinder.swift in Sources */,
 				A450EDF6227C17FF00D39954 /* ThreadViewState.swift in Sources */,
 				A40DFFF2227C20F900CC0770 /* With.swift in Sources */,
 				A4DA8EA2228F004A0079580F /* ThreadCellEntities.swift in Sources */,
