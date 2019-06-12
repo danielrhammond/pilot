@@ -84,7 +84,7 @@ open class CollectionViewController: UIViewController, UICollectionViewDelegate 
             return collectionView.collectionViewLayout
         }
         set {
-            collectionView.collectionViewLayout = layout
+            collectionView.collectionViewLayout = newValue
         }
     }
 

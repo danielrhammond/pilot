@@ -1,10 +1,11 @@
 import Foundation
 import UIKit
+import Pilot
 import PilotUI
 
 public typealias CommentRow = Comment
 
-public struct ReplySummaryRow {
+public struct ReplySummaryRow: Hashable {
     var commentId: String
     var replyCount: Int
 }
@@ -25,6 +26,22 @@ public enum ThreadCellViewModel {
 }
 
 // MARK:
+
+extension ThreadCellModel: Diffable {
+    public var id: ModelId {
+        switch self {
+        case .comment(let comment): return comment.id
+        case .replySummary(let summary): return summary.commentId + "-replySummary"
+        }
+    }
+
+    public var version: Int {
+        switch self {
+        case .comment(let comment): return comment.hashValue
+        case .replySummary(let summary): return summary.hashValue
+        }
+    }
+}
 
 extension ThreadCellView: HostableView {
     public var view: UIView {

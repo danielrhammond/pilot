@@ -70,7 +70,8 @@ class DiffEngineTests: XCTestCase {
     }
 
     func test_add_and_remove_item() {
-        let _ = de.update([[]])
+        let empty: [[Diffable]] = [[]]
+        let _ = de.update(empty)
 
         var expected1 = CollectionEventUpdates()
         expected1.addedModelPaths = [mp(0, 0)]

@@ -1,5 +1,10 @@
 import Foundation
 
+public protocol Diffable {
+    var id: ModelId { get }
+    var version: Int { get }
+}
+
 extension NSIndexSet {
     convenience init(from array: [Int]) {
         var s = IndexSet()
@@ -87,12 +92,12 @@ public struct CollectionEventUpdates {
 private struct ModelInfo {
     var paths: [ModelPath]
     var id: ModelId
-    var version: ModelVersion
+    var version: Int
 }
 
 private struct ModelState {
     let id: ModelId
-    let version: ModelVersion
+    let version: Int
     var active: Bool
 }
 
@@ -108,9 +113,22 @@ public struct DiffEngine {
 
     public init() {}
 
+    private struct DiffableModel: Diffable {
+        var id: ModelId
+        var version: Int
+    }
+
+    /// Wrapper to let legacy users of Model to utilize DiffEngine while new consumers can just use the types conforming to the diffable protocol.
+    public mutating func update(_ models: [[Model]], debug: Bool = false) -> CollectionEventUpdates {
+        let diffableWrappedModels: [[Diffable]] = models.map({ (section) in
+            section.map { DiffableModel(id: $0.modelId, version: $0.modelVersion.hashValue)}
+        })
+        return self.update(diffableWrappedModels, debug: debug)
+    }
+
     /// Given a new set of models, returns a `CollectionEventUpdates` representing the differences
     /// between the old set and the new set.
-    public mutating func update(_ models: [[Model]], debug: Bool = false) -> CollectionEventUpdates {
+    public mutating func update(_ models: [[Diffable]], debug: Bool = false) -> CollectionEventUpdates {
         var newModelInfo: [ModelId: ModelInfo] = [:]
 
         var updates = CollectionEventUpdates()
@@ -123,8 +141,8 @@ public struct DiffEngine {
                 let path = ModelPath(sectionIndex, modelIndex)
 
                 // TODO(ca): This is two dynamic dispatches per model.  Introduce an idAndVersion call to fetch both.
-                let id = model.modelId
-                let version = model.modelVersion
+                let id = model.id
+                let version = model.version
 
                 if var info = newModelInfo[id] {
                     // TODO(ca): enable this assertion when Pilot has a "stabilize" step after all collections have updated.

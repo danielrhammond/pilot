@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SyncedComment {
+public struct SyncedComment: Hashable {
     var id: String
     var parentCommentId: String
 
@@ -21,7 +21,7 @@ extension SyncedComment {
     }
 }
 
-public struct OptimisticComment {
+public struct OptimisticComment: Hashable {
     enum State {
         case syncing
         case failed(Error)
@@ -34,7 +34,7 @@ public struct OptimisticComment {
     var authorAvatarURL: URL
 }
 
-public enum Comment {
+public enum Comment: Hashable {
     case synced(SyncedComment)
     case optimistic(OptimisticComment)
 
